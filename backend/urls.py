@@ -19,5 +19,5 @@ from cabin import urls as cabin_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
-    path('cabin/',include(cabin_urls)),   
+    path('cabin/', include(cabin_urls)),
 ]

@@ -14,7 +14,7 @@
 
 ## URLS
 - localhost:8000/admin/
-- localhost:8000/cabin/getRoomAvailability/?id=<cabin_location.id>&rooms=<number_of_rooms_required>
-- localhost:8000/cabin/paymentStatus/?id=<paymentStatus.id>
-- localhost:8000/cabin/getBooking/?id=<user.id>
-- localhost:8000/cabin/CreateBooking/
+- localhost:8000/cabin/get-room-availability/?id=<cabin_location.id>&rooms=<number_of_rooms_required>
+- localhost:8000/cabin/payment-status/?id=<paymentStatus.id>
+- localhost:8000/cabin/get-booking/?id=<user.id>
+- localhost:8000/cabin/create-booking/
