@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views import View
 from cabin.models import Reservation, PaymentStatus
 from django.core import serializers
+from cabin.availability import CalculateAvailability
 import json
 
 
@@ -10,6 +11,14 @@ class CreateReservation(View):
         pass
 
     def post(self, request):
+        if not CalculateAvailability(
+                request.POST['location_id'],
+                request.POST['rooms'],
+                request.POST['checkin'],
+                request.POST['checkout']
+                ):
+            return JsonResponse({'status': 'Rooms are not available'})
+
         reservation = Reservation.objects.create(
             location_id=request.POST["location_id"],
             user_id=request.user.id,
