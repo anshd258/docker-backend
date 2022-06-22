@@ -19,6 +19,7 @@
 - localhost:8000/cabin/payment-status/?id=<paymentStatus.id>
 - localhost:8000/cabin/get-booking/?id=<user.id>
 - localhost:8000/cabin/create-booking/
+- localhost:8000/cabin/post-testing/
 
 
 #### NOTE: All date formats in "YYYY-MM-DD"
