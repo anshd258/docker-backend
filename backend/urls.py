@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from cabin import urls as cabin_urls
+from service import urls as service_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('cabin/', include(cabin_urls)),
+    path('service/', include(service_urls)),
 ]
