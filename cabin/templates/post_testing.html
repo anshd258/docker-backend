@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>Post Request Testing</title>
+    <style>
+        input{
+        display: block;
+            width: 200px;
+            margin:4px;
+        }
+        *{
+            margin:auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>POST REQUEST TESTING</h1>
+<form method="POST" action ='../create-booking/'>
+    {%csrf_token%}
+    <input type="number" name = 'location_id' placeholder="location_id">
+    <input type="number" name = 'price' placeholder="price">
+    <input type="number" name = 'adults' placeholder="adults">
+    <input type="number" name = 'children' placeholder="children">
+    <input type="date" name = 'checkin' placeholder="checkin">
+    <input type="date" name = 'checkout' placeholder="checkout">
+    <input type="number" name = 'rooms' placeholder="rooms">
+    <input type="submit"  placeholder="SUBMIT">
+</form>
+</body>
+</html>

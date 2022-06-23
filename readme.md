@@ -19,6 +19,11 @@
 - localhost:8000/cabin/payment-status/?id=<paymentStatus.id>
 - localhost:8000/cabin/get-booking/?id=<user.id>
 - localhost:8000/cabin/create-booking/
+- localhost:8000/cabin/post-testing/
+- localhost:8000/package/create-package/?id=<duration>&guests=<guests>&preferences=<a_string_containing_coma_separated_ids_of_package_preferences>
+
+###### One example of create-package url is
+###### http://localhost:8000/package/create-package/?duration=6&guests=2&preferences=8,6
 
 
 #### NOTE: All date formats in "YYYY-MM-DD"
