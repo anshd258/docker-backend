@@ -14,12 +14,13 @@ class GenerateCatalog:
         self.__providers__ = ServiceArea.objects.filter(location=self.__location__).values('provider')
 
     def get_catalog(self):
-        self.__catalog__ = Item.objects.filter(provider__in = self.__providers__)
+        self.__catalog__ = Item.objects.filter(provider__in=self.__providers__)
 
     def calculate_surge(self):
         def surge(item):
             item['final_price'] = item['price'] * self.__location__.surge
-            [item['options'].update({option: price * self.__location__.surge})  for option, price in item['options'].items()]
+            [item['options'].update({option: price * self.__location__.surge})
+             for option, price in item['options'].items()]
             return item
 
         self.__catalog__ = list(map(surge, self.__catalog__.values()))
