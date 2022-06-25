@@ -4,9 +4,12 @@ from service.catalog import GenerateCatalog
 
 
 class GetMenu(View):
-    def get(self, request):
+    def get(self, request) -> JsonResponse:
         catalog = GenerateCatalog()
-        return JsonResponse({"catalog": catalog.build_catalog("LocationA")})
+        try:
+            return JsonResponse({"catalog": catalog.build_catalog(request.GET['location'])})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
 
     def post(self):
         pass
