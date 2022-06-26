@@ -1,11 +1,12 @@
 from django.db import models
 from .location import Location
 from .item import Item
+import uuid
 
 
 class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    option = models.JSONField()
+    option = models.JSONField(blank=True, null=True)
     listed_price = models.FloatField()
     total = models.FloatField()
     discount = models.FloatField(default=0)
@@ -35,8 +36,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     rating = models.FloatField(null=True, blank=True)
 
-    def add_item(self, item, listed_price, discount=0, option=None):
-        # if item.available
+    def add_item(self, item_id, listed_price, discount=0, option=None):
+        item = Item.objects.get(pk=item_id)
         self.save()
         order_item = OrderItem()
         order_item.item = item

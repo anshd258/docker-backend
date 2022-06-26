@@ -19,8 +19,9 @@ class GenerateCatalog:
     def calculate_surge(self):
         def surge(item):
             item['final_price'] = item['price'] * self.__location__.surge
-            [item['options'].update({option: price * self.__location__.surge})
-             for option, price in item['options'].items()]
+            if item['options']:
+                [item['options'].update({option: price * self.__location__.surge})
+                 for option, price in item['options'].items()]
             return item
 
         self.__catalog__ = list(map(surge, self.__catalog__.values()))
