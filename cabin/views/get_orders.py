@@ -1,9 +1,8 @@
 from django.http import JsonResponse
 from django.views import View
-from django.core import serializers
 from cabin.models import Reservation
-import json
 from django.contrib.auth.models import User
+from cabin.orders import Orders
 
 
 class GetReservations(View):
@@ -14,11 +13,8 @@ class GetReservations(View):
         except:
             user = request.user
         reservations = Reservation.objects.filter(user=user).all()
-        return JsonResponse({"status": json.loads(serializers.serialize("json", reservations,
-                                                                        fields=(
-                                                                            'location', 'price', 'adults', 'children',
-                                                                            'checkin', 'checkout', 'rooms')
-                                                                        ))})
+        orders = Orders(reservations)
+        return JsonResponse({"orders": orders.get_orders()})
 
     def post(self):
         pass
