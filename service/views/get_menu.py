@@ -4,7 +4,6 @@ from service.catalog import GenerateCatalog
 
 
 class GetMenu(View):
-
     def get(self, request) -> JsonResponse:
         catalog = GenerateCatalog()
         try:
