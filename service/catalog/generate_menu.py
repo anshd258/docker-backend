@@ -8,13 +8,16 @@ class GenerateCatalog:
         self.__catalog__ = None
 
     def set_location(self, location):
-        self.__location__ = Location.objects.get(name=location)
+        try:
+            self.__location__ = Location.objects.get(name=location)
+        except:
+            pass
 
     def get_providers(self):
         self.__providers__ = ServiceArea.objects.filter(location=self.__location__).values('provider')
 
     def get_catalog(self):
-        self.__catalog__ = Item.objects.filter(provider__in=self.__providers__)
+        self.__catalog__ = Item.objects.filter(provider__in=self.__providers__).all()
 
     def calculate_surge(self):
         def surge(item):
@@ -27,6 +30,8 @@ class GenerateCatalog:
 
     def build_catalog(self, location):
         self.set_location(location)
+        if not self.__location__:
+            return {"status": "Enter a valid location"}
         self.get_providers()
         self.get_catalog()
         self.calculate_surge()
