@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from cabin import urls as cabin_urls
 from user import urls as user_urls
+from package import urls as package_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cabin/', include(cabin_urls)),
     path('user/', include(user_urls)),
+    path('package/', include(package_urls)),
 ]
