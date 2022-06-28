@@ -31,16 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'cabin.apps.CabinConfig',
-    'service.apps.ServiceConfig',
-    'user.apps.UserConfig',
-    'package.apps.PackageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cabin.apps.CabinConfig',
+    'service.apps.ServiceConfig',
+    'user.apps.UserConfig',
+    'package.apps.PackageConfig',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +84,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'Manish@123',
+        'PASSWORD': 'wrench123',
     }
 }
 
