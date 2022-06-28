@@ -1,0 +1,1 @@
+from .generate_menu import GenerateCatalog

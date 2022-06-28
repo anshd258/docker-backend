@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'cabin.apps.CabinConfig',
+    'service.apps.ServiceConfig',
     'user.apps.UserConfig',
     'package.apps.PackageConfig',
     'django.contrib.admin',
