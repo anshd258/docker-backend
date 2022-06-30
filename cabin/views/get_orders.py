@@ -17,6 +17,5 @@ class GetReservations(View):
             print(e)
             return JsonResponse({"status": e})
 
-
     def post(self):
         pass
