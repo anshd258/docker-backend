@@ -13,10 +13,9 @@ class Provider(models.Model):
     max_serving_capacity = models.IntegerField()
     opening_time = models.TimeField()
     closing_time = models.TimeField()
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name="location")
 
     objects = ProviderManager()
 
     class Meta:
         unique_together = [['business_name', 'provider_name']]
-
