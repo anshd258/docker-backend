@@ -23,6 +23,9 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='item.name')
+    desc = serializers.CharField(source='item.desc')
+
     class Meta:
         model = OrderItem
         fields = '__all__'
