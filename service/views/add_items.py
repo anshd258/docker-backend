@@ -10,6 +10,6 @@ class AddItems(View):
         body = json.loads(request.body)
         order = Order.objects.get(pk=body["order"]["id"])
         for item in body["order"]["items"]:
-            order = order.add_item(item["id"], item["final_price"], item["quantity"], item["discount"], item["option"])
+            order = order.add_item(item["id"], item["final_price"], item.get("quantity"), item.get("discount"), item.get("option"))
         order_dict = OrderSerializer([order], many=True).data[0]
         return JsonResponse({"order": order_dict})
