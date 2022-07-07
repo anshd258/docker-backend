@@ -9,4 +9,7 @@ class FindOrders(View):
         order_id = request.GET["id"]
         order = Order.objects.get(pk=order_id)
         order_dict = OrderSerializer([order], many=True).data[0]
+        order_dict = {
+            'order': order_dict
+        }
         return JsonResponse(order_dict)
