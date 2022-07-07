@@ -25,6 +25,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='item.name')
     desc = serializers.CharField(source='item.desc')
+    provider_id = serializers.IntegerField(source='item.provider.id')
 
     class Meta:
         model = OrderItem
