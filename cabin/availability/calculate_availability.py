@@ -13,9 +13,11 @@ def CalculateAvailability(location_id, rooms_to_be_booked, checkin, checkout):
     location = Location.objects.filter(id=location_id).first()
     no_of_rooms = 0
     for each in Reservation.objects.filter(location_id=location.id).all():
-        if datetimeObject(each.checkout) < checkin_date or datetimeObject(each.checkin) > checkout_date:
+        a = datetimeObject(each.checkin)
+        b = datetimeObject(each.checkout)
+        if (a <= checkout_date <= b) or (a <= checkin_date <= b) or (checkin_date <= a and checkout_date >= b):
             no_of_rooms += each.rooms
-    if no_of_rooms >= int(rooms_to_be_booked):
+    if location.rooms-no_of_rooms >= int(rooms_to_be_booked):
         return 1
     else:
         return 0

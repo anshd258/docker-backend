@@ -1,38 +1,40 @@
 from django.http import JsonResponse
 from django.views import View
 from cabin.models import Reservation, PaymentStatus
-from django.core import serializers
 from cabin.availability import CalculateAvailability
+from cabin.serializers import PaymentStatusSerializer,ReservationSerializer
 import json
-
 
 class CreateReservation(View):
     def get(self, request):
         pass
 
     def post(self, request):
+        obj = json.loads(request.body)
         if not CalculateAvailability(
-                request.POST['location_id'],
-                request.POST['rooms'],
-                request.POST['checkin'],
-                request.POST['checkout']
+                obj['location_id'],
+                obj['rooms'],
+                obj['checkin'],
+                obj['checkout']
                 ):
             return JsonResponse({'status': 'Rooms are not available'})
 
         reservation = Reservation.objects.create(
-            location_id=request.POST["location_id"],
-            user_id=request.user.id,
-            price=request.POST["price"],
-            adults=request.POST["adults"],
-            children=request.POST["children"],
-            checkin=request.POST["checkin"],
-            checkout=request.POST["checkout"],
-            rooms=request.POST["rooms"]
+            location_id=obj["location_id"],
+            user_id=obj["user_id"],
+            price=obj["price"],
+            adults=obj["adults"],
+            children=obj["children"],
+            checkin=obj["checkin"],
+            checkout=obj["checkout"],
+            rooms=obj["rooms"]
         )
-        PaymentStatus.objects.create(
+        payment = PaymentStatus.objects.create(
             payment_ref_id="some-randomly-generated-or-some-other-string",
             reservation_id=reservation.id,
-            amount=request.POST["price"]
+            amount=obj["price"]
         )
-        return JsonResponse({"reservation": json.loads(
-            serializers.serialize("json", Reservation.objects.filter(id=reservation.id).all()))})
+        return JsonResponse({
+            "reservation": ReservationSerializer(reservation, many=False).data,
+            "payment_status": PaymentStatusSerializer(payment, many=False).data,
+        })

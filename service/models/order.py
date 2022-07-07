@@ -5,7 +5,7 @@ import uuid
 
 
 class OrderItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item")
     option = models.JSONField(blank=True, null=True)
     listed_price = models.FloatField()
     total = models.FloatField()
@@ -54,4 +54,3 @@ class Order(models.Model):
         self.items.add(order_item)
         self.save()
         return self
-
