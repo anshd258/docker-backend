@@ -2,6 +2,7 @@ from django.views import View
 from ..models import Order, OrderItem
 from django.core import serializers
 from django.http import JsonResponse
+from ..serializers import OrderSerializer
 import json
 
 
@@ -15,8 +16,5 @@ class UpdateOrder(View):
         order.update(**body["order"])
         order[0].items.set(order_items)
         order[0].save()
-        order_dict = json.loads(serializers.serialize('json', order))[0]
-        order_dict["order"] = order_dict["fields"]
-        del order_dict["fields"]
-        order_dict["order"]["id"] = order_dict["pk"]
+        order_dict = OrderSerializer([order[0]], many=True).data[0]
         return JsonResponse(order_dict)

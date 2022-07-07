@@ -24,8 +24,17 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class OrderItemSerializer(serializers.ModelSerializer):
+    item = ItemSerializer(read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+
 class OrderSerializer(serializers.ModelSerializer):
-    item = ItemSerializer(many=True, read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True)
+    location = LocationSerializer(read_only=True)
 
     class Meta:
         model = Order

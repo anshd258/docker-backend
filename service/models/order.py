@@ -29,7 +29,7 @@ class Order(models.Model):
     subtotal = models.FloatField(default=0)
     taxes = models.FloatField(default=0)
     charges = models.FloatField(default=0)
-    comments = models.TextField(max_length=255)
+    comments = models.TextField(max_length=255, null=True, blank=True)
     total = models.FloatField(default=0)
     status = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.HOLD)
     created = models.DateTimeField(auto_now_add=True)
