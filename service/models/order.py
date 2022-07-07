@@ -41,10 +41,16 @@ class Order(models.Model):
     def add_item(self, item_id, listed_price, quantity=1, discount=0, option=None):
         item = Item.objects.get(pk=item_id)
         self.save()
-        order_item = OrderItem()
-        order_item.item = item
+        if self.items.filter(item_id=item_id).exists():
+            order_item = self.items.filter(item_id=item_id)[0]
+            order_item.quantity += 1
+
+        else:
+            order_item = OrderItem()
+            order_item.item = item
+            order_item.quantity = quantity
+
         order_item.option = option
-        order_item.quantity = quantity
         order_item.listed_price = listed_price
         order_item.discount = discount
         order_item.total = listed_price - discount
@@ -53,7 +59,7 @@ class Order(models.Model):
         self.total = self.total + order_item.total
         self.discount = self.discount + order_item.discount
         self.subtotal = self.subtotal + order_item.listed_price
-        self.taxes = 1.18 * self.total
+        self.taxes = 0.18 * self.total
         self.items.add(order_item)
         self.save()
         return self
