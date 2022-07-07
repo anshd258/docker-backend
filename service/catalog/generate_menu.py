@@ -1,6 +1,7 @@
 from ..models import ServiceArea, Provider, Item, Location
 from ..serializers import ItemSerializer
 
+
 class GenerateCatalog:
     def __init__(self):
         self.__location__ = None
@@ -26,8 +27,7 @@ class GenerateCatalog:
                 [item['options'].update({option: price * self.__location__.surge})
                  for option, price in item['options'].items()]
             return item
-        self.__catalog__ = ItemSerializer(self.__catalog__,many=True).data
-        # self.__catalog__ = list(map(surge, self.__catalog__.values()))
+        self.__catalog__ = list(map(surge, self.__catalog__.values()))
 
     def build_catalog(self, location):
         self.set_location(location)
