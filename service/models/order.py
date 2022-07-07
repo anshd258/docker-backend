@@ -11,6 +11,7 @@ class OrderItem(models.Model):
     total = models.FloatField()
     discount = models.FloatField(default=0)
     rating = models.FloatField(default=0)
+    quantity = models.FloatField()
 
 
 class Order(models.Model):
@@ -21,6 +22,7 @@ class Order(models.Model):
         READY = 4  # order is ready for delivery to customer
         DELIVERED = 5  # order is delivered to customer
         COMPLETED = 6  # customer has rated the order and closed it
+        FAILED = 0  # failed payment
 
     # add user field with foreign key to user
     items = models.ManyToManyField(OrderItem)
@@ -36,12 +38,13 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     rating = models.FloatField(null=True, blank=True)
 
-    def add_item(self, item_id, listed_price, discount=0, option=None):
+    def add_item(self, item_id, listed_price, quantity=1, discount=0, option=None):
         item = Item.objects.get(pk=item_id)
         self.save()
         order_item = OrderItem()
         order_item.item = item
         order_item.option = option
+        order_item.quantity = quantity
         order_item.listed_price = listed_price
         order_item.discount = discount
         order_item.total = listed_price - discount

@@ -32,7 +32,6 @@ class GenerateOTP:
         response = requests.request("POST", url=url, data=body, headers=headers)
         print(response)
         self.__response__ = response
-        
 
     def otp_generate(self):
         s = ""

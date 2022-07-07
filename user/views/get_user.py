@@ -7,7 +7,7 @@ class GetUser(View):
 
     def get(self, request):
         try:
-            a = FindUser(request.GET["contact"])
+            a = FindUser(request.GET["phone"])
         except:
             return JsonResponse({"Error": "Invalid Arguments"})
 
