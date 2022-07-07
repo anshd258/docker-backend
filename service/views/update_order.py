@@ -10,7 +10,7 @@ class UpdateOrder(View):
     def post(self, request):
         body = json.loads(request.body)
         order = Order.objects.filter(pk=body["order"]["id"])
-        order_items = [OrderItem.objects.get(pk=item) for item in body["order"]["items"]]
+        order_items = [OrderItem.objects.get(pk=item['id']) for item in body["order"]["items"]]
         del body["order"]["items"]
         del body["order"]["id"]
         order.update(**body["order"])
