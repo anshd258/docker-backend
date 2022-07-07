@@ -5,7 +5,7 @@ from service.models import *
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ['id', 'name', 'description', 'address']
+        fields = '__all__'
 
 
 class ProviderSerializer(serializers.ModelSerializer):
@@ -13,12 +13,10 @@ class ProviderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Provider
-        fields = ['id', 'location', 'business_name', 'provider_name']
+        fields = '__all__'
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    provider = ProviderSerializer(many=False, read_only=True)
-
     class Meta:
         model = Item
         fields = '__all__'
