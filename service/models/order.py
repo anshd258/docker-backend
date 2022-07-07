@@ -11,7 +11,7 @@ class OrderItem(models.Model):
     total = models.FloatField()
     discount = models.FloatField(default=0)
     rating = models.FloatField(default=0)
-    quantity = models.FloatField()
+    quantity = models.IntegerField()
 
 
 class Order(models.Model):
