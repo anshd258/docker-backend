@@ -45,6 +45,7 @@ class Order(models.Model):
         item = Item.objects.get(pk=item_id)
         self.save()
         option_prices = 0
+        option = None if option == {} else option
         if option:
             option_prices = sum(option.values)
         order_item = self.items.filter(item=item)[0] if self.items.filter(item=item).exists() else None
