@@ -130,3 +130,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+FAST2SMS_API_KEY = 'img7wq1H3ouRd2SjMnzkGsX4cUl6CfQYEADBebOIxP5F9LahtJDcVWZT2ERv9B7C3YAaHobt51G0pwKe'
+FAST2SMS_API_ENDPOINT = 'https://www.fast2sms.com/dev/bulkV2'
