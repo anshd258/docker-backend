@@ -4,7 +4,7 @@ from .item import Item
 from django.dispatch import receiver
 from django.db.models import Sum
 from django.db.models.signals import post_save
-import uuid
+from django.contrib.auth.models import User
 
 
 class OrderItem(models.Model):
@@ -27,7 +27,7 @@ class Order(models.Model):
         COMPLETED = 6  # customer has rated the order and closed it
         FAILED = 0  # failed payment
 
-    # add user field with foreign key to user
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderItem)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     discount = models.FloatField(default=0.0)

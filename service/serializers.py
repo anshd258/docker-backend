@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from service.models import *
+from user.serializers import UserSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):

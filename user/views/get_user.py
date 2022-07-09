@@ -8,10 +8,16 @@ class GetUser(View):
     def get(self, request):
         try:
             a = FindUser(request.GET["phone"])
+            userdata = a.get_user()
+            if userdata:
+                request.session['userdata'] = userdata
+                return JsonResponse(userdata)
+            else:
+                return JsonResponse({"status": "User Not Found"}, status=404)
         except:
             return JsonResponse({"Error": "Invalid Arguments"})
 
-        return JsonResponse(a.get_user())
+
 
     def post(self):
         pass

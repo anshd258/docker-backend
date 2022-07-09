@@ -1,7 +1,5 @@
 from user.models import UserInfo
-from django.contrib.auth.models import User
 from ..serializers import UserInfoSerializer
-import json
 
 
 class FindUser:
