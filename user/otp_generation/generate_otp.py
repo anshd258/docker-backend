@@ -1,7 +1,8 @@
 import random
 import jwt
 import requests
-
+from django.conf import settings
+# referred from https://docs.fast2sms.com/#otp-sms-api
 
 class GenerateOTP:
 
@@ -15,21 +16,18 @@ class GenerateOTP:
         self.__contact__ = contact
 
     def send_message(self):
-        url = 'https://www.fast2sms.com/dev/bulkV2'
-        message = f'The OTP for login is {self.__otp__}'
+        message = "Please use this OTP " + self.__otp__ + " to login to Brisphere"
+        url = settings.FAST2SMS_API_ENDPOINT
         headers = {
-            "authorization": "vjhrIsz40e9CPGQmT7ldFw5OaRb3fxnpSgXBJVAiH8qyZtuLUEQUx9SanhRLKj7oGpq6lFdJ5wZ2XCg8",
-            "Content-Type": "application/json"
+            "Authorization":  settings.FAST2SMS_API_KEY
         }
         body = {
-            "route": "v3",
-            "sender_id": "FTWSMS",
+            "route": "q",
             "message": message,
             "language": "english",
-            "flash": 0,
             "numbers": self.__contact__,
         }
-        response = requests.request("POST", url=url, data=body, headers=headers)
+        response = requests.post(url=url, data=body, headers=headers)
         print(response)
         self.__response__ = response
 
