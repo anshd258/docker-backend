@@ -1,12 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from cabin.models import Location, Reservation, PaymentStatus
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email']
+from user.serializers import UserSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):

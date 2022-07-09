@@ -1,6 +1,6 @@
 from user.models import UserInfo
 from django.contrib.auth.models import User
-from django.core import serializers
+from ..serializers import UserInfoSerializer
 import json
 
 
@@ -10,13 +10,4 @@ class FindUser:
 
     def get_user(self):
         user = UserInfo.objects.filter(contact=self.__contact__).first()
-
-        if user is None:
-            return {"status": "A user with the given phone number do not exist."}
-
-        user_obj = User.objects.filter(id=user.id).all()
-        return {"status": json.loads(serializers.serialize(
-            "json",
-            user_obj,
-            fields=('username', 'first_name', 'last_name', 'email')
-        ))}
+        return UserInfoSerializer(user).data
