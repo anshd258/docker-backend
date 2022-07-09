@@ -47,7 +47,7 @@ class Order(models.Model):
         option_prices = 0
         option = None if option == {} else option
         if option:
-            option_prices = sum(option.values)
+            option_prices = sum(option.values())
         order_item = self.items.filter(item=item)[0] if self.items.filter(item=item).exists() else None
         if order_item and order_item.option == option:
             order_item.quantity += 1
