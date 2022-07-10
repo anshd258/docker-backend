@@ -13,15 +13,18 @@ class CreateUser(View):
 
     def post(self, request):
         data = json.loads(request.body)
-        user = User.objects.create(
-            username=data["username"],
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            password=make_password(data["password"]),
-            email=data["email"],
-        )
-        user_details = UserInfo.objects.create(
-            user_id=user.id,
-            contact=data["contact"],
-        )
-        return JsonResponse({"status": "success"})
+        try:
+            user = User.objects.create(
+                username=data["username"],
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                password=make_password(data["password"]),
+                email=data["email"],
+            )
+            user_details = UserInfo.objects.create(
+                user_id=user.id,
+                contact=data["contact"],
+            )
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": str(e)}, status=404)
