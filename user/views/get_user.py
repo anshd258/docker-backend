@@ -14,8 +14,8 @@ class GetUser(View):
                 return JsonResponse(userdata)
             else:
                 return JsonResponse({"status": "User Not Found"}, status=404)
-        except:
-            return JsonResponse({"Error": "Invalid Arguments"})
+        except Exception as e:
+            return JsonResponse({"Error": str(e)}, status=404)
 
 
 
