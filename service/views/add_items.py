@@ -7,9 +7,12 @@ from ..serializers import OrderSerializer
 
 class AddItems(View):
     def post(self, request):
-        body = json.loads(request.body)
-        order = Order.objects.get(pk=body["order"]["id"])
-        for item in body["order"]["items"]:
-            order = order.add_item(item["id"], item["final_price"], item.get("quantity", 1), item.get("discount", 0.0), item.get("option", None))
-        order_dict = OrderSerializer([order], many=True).data[0]
-        return JsonResponse({"order": order_dict})
+        try:
+            body = json.loads(request.body)
+            order = Order.objects.get(pk=body["order"]["id"])
+            for item in body["order"]["items"]:
+                order = order.add_item(item["id"], item["final_price"], item.get("quantity", 1), item.get("discount", 0.0), item.get("option", None))
+            order_dict = OrderSerializer([order], many=True).data[0]
+            return JsonResponse({"order": order_dict})
+        except Exception as e:
+            return JsonResponse({"status": str(e)}, status=404)

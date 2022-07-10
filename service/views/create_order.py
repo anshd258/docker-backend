@@ -7,12 +7,15 @@ from django.contrib.auth.models import User
 
 class CreateOrder(View):
     def get(self, request):
-        location = Location.objects.get(name=request.GET["location"])
-        user_id = request.session.get('userdata', {}).get('user', {}).get('id', None)
-        user = User.objects.get(pk=user_id)
-        order = Order.objects.create(location=location, user=user)
-        order_dict = OrderSerializer([order], many=True).data[0]
-        order_dict = {
-            'order': order_dict
-        }
-        return JsonResponse(order_dict)
+        try:
+            location = Location.objects.get(name=request.GET["location"])
+            user_id = request.session.get('userdata', {}).get('user', {}).get('id', None)
+            user = User.objects.get(pk=user_id)
+            order = Order.objects.create(location=location, user=user)
+            order_dict = OrderSerializer([order], many=True).data[0]
+            order_dict = {
+                'order': order_dict
+            }
+            return JsonResponse(order_dict)
+        except Exception as e:
+            return JsonResponse({"status": str(e)}, status=404)
