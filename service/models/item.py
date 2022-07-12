@@ -8,3 +8,6 @@ class Item(models.Model):
     desc = models.TextField(max_length=255)
     price = models.FloatField(default=0)
     options = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name) + " by " + str(self.provider.business_name)

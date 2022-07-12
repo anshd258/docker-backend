@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-at)hxvzc$-n-u*=+5jp0)pbwkzp40=pwomctbrp^iw$wm%m!#=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Add subdomain hostname of client app here
 ALLOWED_HOSTS = ["*"]
@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sphere',
+        'NAME': 'backenddb',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'USER': 'briuser',
-        'PASSWORD': '@Bricabin123',
+        'USER': 'root',
+        'PASSWORD': 'wrench123',
     }
 }
 

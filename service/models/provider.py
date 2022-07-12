@@ -19,3 +19,6 @@ class Provider(models.Model):
 
     class Meta:
         unique_together = [['business_name', 'provider_name']]
+
+    def __str__(self):
+        return str(self.business_name) + " by " + str(self.provider_name)

@@ -69,6 +69,9 @@ class Order(models.Model):
         self.save()
         return self
 
+    def __str__(self):
+        return str(self.pk) + " - " + str(self.user) + " : " + str(self.total)
+
 
 @receiver(post_save, sender=Order)
 def update_total(sender, instance, **kwargs):

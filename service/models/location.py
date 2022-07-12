@@ -8,3 +8,6 @@ class Location(models.Model):
     max_persons = models.IntegerField(default=0)
     location_type = models.TextField()
     surge = models.FloatField(default=1.0)
+
+    def __str__(self):
+        return str(self.name) + " (" + str(self.surge) + "x )"
