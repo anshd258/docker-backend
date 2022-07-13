@@ -17,7 +17,5 @@ class GetUser(View):
         except Exception as e:
             return JsonResponse({"Error": str(e)}, status=404)
 
-
-
     def post(self):
         pass

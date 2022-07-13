@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from cabin.models import Location, Reservation, PaymentStatus
-from user.serializers import UserSerializer
+from user.serializers import UserInfoSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     location = LocationSerializer(many=False, read_only=True)
-    user = UserSerializer(many=False, read_only=True)
+    user = UserInfoSerializer(many=False, read_only=True)
 
     class Meta:
         model = Reservation
