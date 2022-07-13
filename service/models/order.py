@@ -41,6 +41,16 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     rating = models.FloatField(null=True, blank=True)
 
+    def remove_item(self, order_item_id, quantity=1):
+        order_item = self.items.get(pk=order_item_id)
+        unit_total = order_item.total / order_item.quantity
+        unit_listed_price = order_item.listed_price / order_item.quantity
+        order_item.quantity = quantity
+        order_item.listed_price = unit_listed_price * quantity
+        order_item.total = unit_total * quantity
+        order_item.save()
+        return order_item
+
     def add_item(self, item_id, listed_price, quantity=1, discount=0, option=None):
         item = Item.objects.get(pk=item_id)
         self.save()
@@ -81,6 +91,7 @@ def update_total(sender, instance, **kwargs):
     instance.subtotal = subtotal if subtotal else 0
     instance.total = instance.subtotal - instance.discount
     instance.taxes = instance.total * 0.18
+    instance.total += instance.taxes
     post_save.disconnect(update_total, sender=Order)
     instance.save()
     post_save.connect(update_total, sender=Order)
