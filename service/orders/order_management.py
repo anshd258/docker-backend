@@ -42,6 +42,7 @@ class OrderManagement:
     def remove_item(self, order_item_id, quantity):
         order_item = OrderItem.objects.get(pk=order_item_id)
         order_item.quantity = order_item.quantity - quantity
+        order_item.quantity = order_item.quantity if order_item.quantity > 0 else 0
         order_item.total = order_item.listed_price * order_item.quantity
         order_item.save()
         return self

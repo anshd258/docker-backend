@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from ..serializers import OrderSerializer, OrderItemSerializer
 from django.views import View
 from ..models import Order, OrderItem
+from django.db.models import Q
 
 
 class FindOrders(View):
@@ -9,7 +10,7 @@ class FindOrders(View):
         try:
             order_id = request.GET["id"]
             order = Order.objects.filter(pk=order_id).first()
-            order_items = OrderItem.objects.filter(order=order)
+            order_items = OrderItem.objects.filter(order=order).exclude(total=0)
             order_dict = OrderSerializer(order).data
             order_dict['items'] = OrderItemSerializer(order_items, many=True).data
             order_dict = {
