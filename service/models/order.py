@@ -7,16 +7,6 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 
-class OrderItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item")
-    option = models.JSONField(blank=True, null=True)
-    listed_price = models.FloatField()
-    total = models.FloatField()
-    discount = models.FloatField(default=0)
-    rating = models.FloatField(default=0)
-    quantity = models.IntegerField()
-
-
 class Order(models.Model):
     class Status(models.IntegerChoices):
         HOLD = 1  # while adding items
@@ -28,7 +18,6 @@ class Order(models.Model):
         FAILED = 0  # failed payment
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    items = models.ManyToManyField(OrderItem)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     discount = models.FloatField(default=0.0)
     subtotal = models.FloatField(default=0)
@@ -41,58 +30,30 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     rating = models.FloatField(null=True, blank=True)
 
-    def remove_item(self, order_item_id, quantity=1):
-        order_item = self.items.get(pk=order_item_id)
-        unit_total = order_item.total / order_item.quantity
-        unit_listed_price = order_item.listed_price / order_item.quantity
-        order_item.quantity = quantity
-        order_item.listed_price = unit_listed_price * quantity
-        order_item.total = unit_total * quantity
-        order_item.save()
-        return order_item
-
-    def add_item(self, item_id, listed_price, quantity=1, discount=0, option=None):
-        item = Item.objects.get(pk=item_id)
-        self.save()
-        option_prices = 0
-        option = None if option == {} else option
-        if option:
-            option_prices = sum(option.values())
-        order_item = self.items.filter(item=item)[0] if self.items.filter(item=item).exists() else None
-        if order_item and order_item.option == option:
-            order_item.quantity += 1
-            order_item.listed_price += listed_price
-            order_item.total += listed_price + option_prices
-            order_item.discount = discount
-        else:
-            order_item = OrderItem()
-            order_item.item = item
-            order_item.quantity = quantity
-            order_item.listed_price = listed_price
-            order_item.total = listed_price + option_prices
-            order_item.discount = discount
-
-        order_item.total = 0 if order_item.total < 0 else order_item.total
-        order_item.save()
-
-        self.items.add(order_item)
-        self.save()
-        return self
-
     def __str__(self):
         return str(self.pk) + " - " + str(self.user) + " : " + str(self.total)
 
 
-@receiver(post_save, sender=Order)
-def update_total(sender, instance, **kwargs):
-    subtotal = instance.items.aggregate(Sum('total'))['total__sum']
-    discounts = instance.items.aggregate(Sum('discount'))['discount__sum']
-    instance.discount = discounts if discounts else 0
-    instance.subtotal = subtotal if subtotal else 0
-    instance.total = instance.subtotal - instance.discount
-    instance.taxes = instance.total * 0.18
-    instance.total += instance.taxes
-    post_save.disconnect(update_total, sender=Order)
-    instance.save()
-    post_save.connect(update_total, sender=Order)
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order", null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item")
+    option = models.JSONField(blank=True, null=True)
+    listed_price = models.FloatField()
+    total = models.FloatField()
+    discount = models.FloatField(default=0)
+    rating = models.FloatField(default=0)
+    quantity = models.IntegerField()
 
+
+@receiver(post_save, sender=OrderItem)
+def update_total(sender, instance, **kwargs):
+    order = instance.order
+    items = sender.objects.filter(order=order)
+    order.subtotal = items.aggregate(Sum('total'))['total__sum']
+    order.discount = items.aggregate(Sum('discount'))['discount__sum']
+    order.total = order.subtotal - order.discount
+    order.taxes = order.total * 0.18
+    order.total += order.taxes
+    post_save.disconnect(update_total, sender=OrderItem)
+    order.save()
+    post_save.connect(update_total, sender=OrderItem)

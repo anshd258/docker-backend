@@ -14,7 +14,7 @@ class CreateOrder(View):
                 user_id = request.GET["user_id"]
             user = User.objects.get(pk=user_id)
             order = Order.objects.create(location=location, user=user)
-            order_dict = OrderSerializer([order], many=True).data[0]
+            order_dict = OrderSerializer(order).data
             order_dict = {
                 'order': order_dict
             }
