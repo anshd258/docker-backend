@@ -11,5 +11,3 @@ class CheckPaymentStatus(View):
         payment = PaymentStatus.objects.filter(reservation_id=reservation_id).first()
         return JsonResponse(PaymentStatusSerializer(payment, many=False).data)
 
-    def post(self):
-        pass

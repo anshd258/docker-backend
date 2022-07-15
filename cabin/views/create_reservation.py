@@ -2,12 +2,16 @@ from django.http import JsonResponse
 from django.views import View
 from cabin.models import Reservation, PaymentStatus
 from cabin.availability import CalculateAvailability
-from cabin.serializers import PaymentStatusSerializer,ReservationSerializer
+from cabin.serializers import PaymentStatusSerializer, ReservationSerializer
 import json
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
-class CreateReservation(View):
-    def get(self, request):
-        pass
+
+class CreateReservation(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         obj = json.loads(request.body)
@@ -16,7 +20,7 @@ class CreateReservation(View):
                 obj['rooms'],
                 obj['checkin'],
                 obj['checkout']
-                ):
+        ):
             return JsonResponse({'status': 'Rooms are not available'})
 
         reservation = Reservation.objects.create(
