@@ -1,10 +1,8 @@
 from django.http import JsonResponse
-from django.views import View
 from cabin.models import Reservation
 from django.contrib.auth.models import User
 from cabin.serializers import ReservationSerializer
 from rest_framework.views import APIView
-# from rest_framework.authentication import TokenAuthentication
 from user.authentication import BearerAuthentication
 from rest_framework.permissions import IsAuthenticated
 
