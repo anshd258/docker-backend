@@ -10,6 +10,9 @@ class Item(models.Model):
     category = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=255, blank=True, null=True)
     options = models.JSONField(null=True, blank=True)
+    veg = models.BooleanField(default=False)
+    available = models.BooleanField(default=)
+
 
     def __str__(self):
         return str(self.name) + " by " + str(self.provider.business_name)
