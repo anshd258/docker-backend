@@ -11,7 +11,7 @@ class Item(models.Model):
     type = models.CharField(max_length=255, blank=True, null=True)
     options = models.JSONField(null=True, blank=True)
     veg = models.BooleanField(default=False)
-    available = models.BooleanField(default=)
+    available = models.BooleanField(default=True)
 
 
     def __str__(self):
