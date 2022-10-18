@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'package.apps.PackageConfig',
     'rest_framework',
+    'sslserver'
 ]
 
 MIDDLEWARE = [
