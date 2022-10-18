@@ -35,8 +35,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order", null=True, blank=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items", null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_items")
     option = models.JSONField(blank=True, null=True)
     listed_price = models.FloatField()
     total = models.FloatField()
