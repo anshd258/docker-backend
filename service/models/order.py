@@ -51,7 +51,7 @@ def update_total(sender, instance, **kwargs):
     items = sender.objects.filter(order=order)
     order.subtotal = items.aggregate(Sum('total'))['total__sum']
     order.discount = items.aggregate(Sum('discount'))['discount__sum']
-    order.total = order.subtotal - order.discount
+    order.total = order.subtotal - order.discount if order.subtotal > order.discount else 0
     order.taxes = order.total * 0.18
     order.total += order.taxes
     post_save.disconnect(update_total, sender=OrderItem)
