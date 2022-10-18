@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 class Order(models.Model):
     class Status(models.IntegerChoices):
         HOLD = 1  # while adding items
-        CONFIRMED = 2  # while final payment is being made
-        PROCESSING = 3  # final payment done and order pending service
+        PROCESSING = 2  # while final payment is being made
+        CONFIRMED = 3  # final payment done and order pending service
         READY = 4  # order is ready for delivery to customer
         DELIVERED = 5  # order is delivered to customer
         COMPLETED = 6  # customer has rated the order and closed it

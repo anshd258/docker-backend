@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'service.apps.ServiceConfig',
     'user.apps.UserConfig',
     'package.apps.PackageConfig',
+    'gig.apps.GigConfig',
     'rest_framework',
     'sslserver'
 ]
