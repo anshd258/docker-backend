@@ -27,6 +27,5 @@ class Location(models.Model):
         self.calculate_surge()
 
     def check_out(self, no_of_persons):
-        self.occupancy = F('occupancy') - no_of_persons
-        self.occupancy = 0 if self.occupancy < 0 else 0
+        self.occupancy = 0 if self.occupancy < no_of_persons else F('occupancy') - no_of_persons
         self.calculate_surge()
