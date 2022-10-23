@@ -32,8 +32,8 @@ class FindOrders(View):
                 user_info = UserInfo.objects.get(contact=body['phone'])
                 orders = Order.objects.filter(user=user_info.user)
 
-            result = OrderSerializer(orders, many=True).data
-            return JsonResponse(result, safe=False)
+            result = {"orders": OrderSerializer(orders, many=True).data}
+            return JsonResponse(result)
 
         except Exception as e:
             return JsonResponse({"status": str(e)}, status=404)
