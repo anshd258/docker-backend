@@ -6,4 +6,5 @@ from .views import *
 urlpatterns = [
     path('find-jobs/', never_cache(FindJobs.as_view()), name='find-jobs'),
     path('assign-job/', csrf_exempt(AssignJob.as_view()), name='assign-job'),
-    ]
+    path('find-workers/', never_cache(FindWorkers.as_view()), name='find-workers')
+]
