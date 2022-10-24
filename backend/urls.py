@@ -19,6 +19,7 @@ from cabin import urls as cabin_urls
 from service import urls as service_urls
 from user import urls as user_urls
 from package import urls as package_urls
+from gig import urls as gig_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('service/', include(service_urls)),
     path('user/', include(user_urls)),
     path('package/', include(package_urls)),
+    path('gig/', include(gig_urls))
 ]

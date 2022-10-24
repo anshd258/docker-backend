@@ -8,8 +8,10 @@ import json
 
 
 class UpdateOrder(View):
-    def create_gig_job(self, job):
-        job = Job(order=job)
+    @staticmethod
+    def create_gig_job(order):
+        job = Job(order=order)
+        job.commission = order.charges + 0.1 * (order.subtotal - order.discount)
         job.save()
 
     def post(self, request):
@@ -20,7 +22,7 @@ class UpdateOrder(View):
             order.update(**body["order"])
             order[0].save()
             if order[0].status == Order.Status.CONFIRMED:
-                self.create_gig_job(order[0])
+                UpdateOrder.create_gig_job(order[0])
             order_dict = OrderSerializer([order[0]], many=True).data[0]
             return JsonResponse(order_dict)
         except Exception as e:
