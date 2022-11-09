@@ -15,17 +15,20 @@ class Location(models.Model):
     def __str__(self):
         return str(self.name) + " (" + str(self.surge) + "x )"
 
+    def save(self, **kwargs):
+        self.calculate_surge()
+        super().save(**kwargs)
+
     def calculate_surge(self):
         try:
             self.surge = (self.occupancy / self.max_persons) + self.base_surge
         except Exception as e:
             self.surge = self.base_surge
-        self.save()
 
     def check_in(self, no_of_persons):
         self.occupancy = F('occupancy') + no_of_persons
-        self.calculate_surge()
+        self.save()
 
     def check_out(self, no_of_persons):
         self.occupancy = 0 if self.occupancy < no_of_persons else F('occupancy') - no_of_persons
-        self.calculate_surge()
+        self.save()
