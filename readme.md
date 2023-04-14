@@ -1,17 +1,12 @@
 # Basic Requirements
-- Python and MySQL to be installed in system.
+- Docker:  https://www.docker.com/products/docker-desktop
 
 # STEPS OF INSTALLATION
 
-- Create a database using MySQL with name "backenddb"
-- Change the username and password accordingly by going to backend>settings.py>DATABASE.
-- Create a virtual environment and activate the environment.
-- Run "pip install -r requirements.txt" to install all the dependencies
-- Makemigrations using command "python manage.py makemigrations" and then run those migrations using "python manage migrate"
-- Run "python manage.py runserver" to run the server.
-- Create one superuser to access the admin panel using command "python manage.py createsuperuser"
-- Go to admin pannel and add a few entries to each model to check the APIs.
-
+-Clone the repo: git clone https://github.com/brisphere/django-backend.git
+-Change the current directory: cd django-backend
+-Build the docker containers: docker-compose build 
+-Run the docker containers: docker-compose up 
 
 ## URLS
 - localhost:8000/admin/

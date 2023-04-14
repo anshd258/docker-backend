@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'package.apps.PackageConfig',
     'gig.apps.GigConfig',
     'rest_framework',
-    'sslserver'
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -87,13 +87,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'backenddb',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': 'wrench123',
+        'NAME': os.environ.get('MYSQL_DATABASE', 'backenddb'),
+        'USER': os.environ.get('MYSQL_USER', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', 'wrench123'),
+        'HOST': os.environ.get('MYSQL_DATABASE_HOST', 'db'),
+        'PORT': os.environ.get('MYSQL_DATABASE_PORT', 3306),
     }
 }
+
 
 # Caches
 CACHES = {
@@ -138,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
