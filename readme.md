@@ -4,8 +4,11 @@
 # STEPS OF INSTALLATION
 
 -Clone the repo: git clone https://github.com/brisphere/django-backend.git
--Change the current directory: cd django-backend
+
+-Change the current directory: cd django-backend 
+
 -Build the docker containers: docker-compose build 
+
 -Run the docker containers: docker-compose up 
 
 ## URLS
