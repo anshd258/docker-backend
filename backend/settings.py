@@ -30,6 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:59751',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,9 +50,11 @@ INSTALLED_APPS = [
     'gig.apps.GigConfig',
     'rest_framework',
     'sslserver',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware'
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'

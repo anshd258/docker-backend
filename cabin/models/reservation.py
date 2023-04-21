@@ -9,6 +9,6 @@ class Reservation(models.Model):
     price = models.IntegerField()
     adults = models.IntegerField()
     children = models.IntegerField()
-    checkin = models.DateField()
-    checkout = models.DateField()
+    checkin = models.DateTimeField()
+    checkout = models.DateTimeField()
     rooms = models.IntegerField()
