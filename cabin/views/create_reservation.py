@@ -1,4 +1,8 @@
+import base64
 import datetime
+import hashlib
+import hmac
+from django.conf import settings
 from django.http import JsonResponse
 from django.views import View
 from cabin.models import Reservation, PaymentStatus,Location
@@ -10,6 +14,7 @@ import os
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 import pytz
+from rest_framework.decorators import api_view
 
 class CreateReservation(View):
     def get(self, request):
@@ -18,29 +23,38 @@ class CreateReservation(View):
     @csrf_exempt
     def post(self, request):
         obj = json.loads(request.body)
-        loc=Location.objects.filter(name=obj['location']).first()
+        location=obj['location']
+        price=obj['price']
+        try:
+            loc=Location.objects.filter(name=location).first()
+        except:
+            return JsonResponse({'status': 'Location not found'})
+    
         obj['location_id']=loc.id
-        # if not CalculateAvailability(
-        #         obj['location_id'],
-        #         obj['rooms'],
-        #         obj['checkin'],
-        #         obj['checkout']
-        #         ):
-        #     return JsonResponse({'status': 'Rooms are not available'})
+        chkin=pytz.utc.localize(datetime.datetime.strptime(obj['checkin'], '%Y-%m-%d %H:%M:%S'))
+        chkout=pytz.utc.localize(datetime.datetime.strptime(obj['checkout'], '%Y-%m-%d %H:%M:%S'))
+        print("CHECIN",chkin)
+        if not CalculateAvailability(
+                obj['location_id'],
+                obj['rooms'],
+                chkin,
+                chkout
+                ):
+            return JsonResponse({'status': 'Rooms are not available'})
         client = razorpay.Client(auth=(os.environ.get('PUBLIC_KEY'), os.environ.get('SECRET_KEY')))
-        user=User.objects.filter(first_name=obj['first_name']).first()
+        user=User.objects.filter(email=obj['email_id']).first()
         obj['user_id']=user.id
         reservation = Reservation.objects.create(
             location_id=obj["location_id"],
             user_id=obj["user_id"],
-            price=obj["price"],
+            price=int(price),
             adults=obj["adults"],
             children=obj["children"],
-            checkin=pytz.utc.localize(datetime.datetime.strptime(obj['checkin'], '%Y-%m-%d %H:%M:%S')),
-            checkout=pytz.utc.localize(datetime.datetime.strptime(obj['checkout'], '%Y-%m-%d %H:%M:%S')),
+            checkin=chkin,
+            checkout=chkout,
             rooms=obj["rooms"]
         )
-        amount=int(obj["price"])
+        amount=int(price)
         razor_payment = client.order.create({"amount": int(amount) * 100, 
                                    "currency": "INR", 
                                    "payment_capture": "1"})
@@ -50,39 +64,29 @@ class CreateReservation(View):
             amount=obj["price"]
         )
         print(PaymentStatusSerializer(payment, many=False).data)
-        response=JsonResponse({'payment_status':PaymentStatusSerializer(payment, many=False).data})
+        response=JsonResponse({'order_id':razor_payment['id']})
         response.status_code=200
+        print(response)
         return response
+    
+    @api_view(['POST'])
     def success(request):
-        res = json.loads(request.data["response"])
-
-        ord_id = ""
-        raz_pay_id = ""
-        raz_signature = ""
-        for key in res.keys():
-            if key == 'razorpay_order_id':
-                ord_id = res[key]
-            elif key == 'razorpay_payment_id':
-                raz_pay_id = res[key]
-            elif key == 'razorpay_signature':
-                raz_signature = res[key]
-
-        payment=PaymentStatus.objects.filter(payment_ref_id=ord_id).first()
-        data = {
-        'razorpay_order_id': ord_id,
-        'razorpay_payment_id': raz_pay_id,
-        'razorpay_signature': raz_signature
-        }
+        print(request.body)
+        res=json.loads(request.body)
+        order_id = res['orderId']
+        payment_id = res['paymentId']
+        signature= res['signature']
         client = razorpay.Client(auth=(os.environ.get('PUBLIC_KEY'), os.environ.get('SECRET_KEY')))
-        check = client.utility.verify_payment_signature(data)
-
-        if check is not None:
-            print("Redirect to error url or error page")
-            return JsonResponse({'error': 'Something went wrong'})
-        payment.status = True
-        payment.save()
-        res_data = {
-        'message': 'payment successfully received!'
-        }
-
-        return JsonResponse(res_data)
+        try:
+            data = {
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+            }
+            print(data)
+            client.utility.verify_payment_signature(data)
+            return JsonResponse({'status':'Payment Successful'})
+        except:
+            resp=JsonResponse({'status':'Payment Failed'})
+            resp.status_code=500
+            return resp

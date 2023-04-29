@@ -12,3 +12,5 @@ class Reservation(models.Model):
     checkin = models.DateTimeField()
     checkout = models.DateTimeField()
     rooms = models.IntegerField()
+    mobile=models.CharField(max_length=10,null=True)
+    whatsapp=models.CharField(max_length=10,null=True)

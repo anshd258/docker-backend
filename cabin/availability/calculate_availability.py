@@ -3,13 +3,12 @@ from cabin.models.reservation import Reservation
 from datetime import datetime
 import pytz
 def datetimeObject(it):
-    print(it)
     return pytz.utc.localize(datetime.strptime(str(it),'%Y-%m-%d %H:%M:%S'))
 
 
 def CalculateAvailability(location_id, rooms_to_be_booked, checkin, checkout):
-    checkin_date = datetimeObject(checkin)
-    checkout_date = datetimeObject(checkout)
+    checkin_date = checkin
+    checkout_date = checkout
     location = Location.objects.filter(id=location_id).first()
     no_of_rooms = 0
     for each in Reservation.objects.filter(location_id=location.id).all():
