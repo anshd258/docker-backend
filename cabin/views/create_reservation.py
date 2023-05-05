@@ -33,7 +33,6 @@ class CreateReservation(View):
         obj['location_id']=loc.id
         chkin=pytz.utc.localize(datetime.datetime.strptime(obj['checkin'], '%Y-%m-%d %H:%M:%S'))
         chkout=pytz.utc.localize(datetime.datetime.strptime(obj['checkout'], '%Y-%m-%d %H:%M:%S'))
-        print("CHECIN",chkin)
         if not CalculateAvailability(
                 obj['location_id'],
                 obj['rooms'],
@@ -63,15 +62,12 @@ class CreateReservation(View):
             reservation_id=reservation.id,
             amount=obj["price"]
         )
-        print(PaymentStatusSerializer(payment, many=False).data)
         response=JsonResponse({'order_id':razor_payment['id']})
         response.status_code=200
-        print(response)
         return response
     
     @api_view(['POST'])
     def success(request):
-        print(request.body)
         res=json.loads(request.body)
         order_id = res['orderId']
         payment_id = res['paymentId']
@@ -83,7 +79,6 @@ class CreateReservation(View):
             'razorpay_payment_id': payment_id,
             'razorpay_signature': signature
             }
-            print(data)
             client.utility.verify_payment_signature(data)
             return JsonResponse({'status':'Payment Successful'})
         except:
