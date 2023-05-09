@@ -23,11 +23,11 @@ class CreateReservation(View):
     @csrf_exempt
     def post(self, request):
         obj = json.loads(request.body)
+        print(obj)
         location=obj['location']
         price=obj['price']
-        try:
-            loc=Location.objects.filter(name=location).first()
-        except:
+        loc=Location.objects.filter(name=location).first()
+        if loc is None:
             return JsonResponse({'status': 'Location not found'})
     
         obj['location_id']=loc.id
@@ -39,9 +39,25 @@ class CreateReservation(View):
                 chkin,
                 chkout
                 ):
-            return JsonResponse({'status': 'Rooms are not available'})
+            print('Rooms are not available')
+            return JsonResponse({'status': 'Rooms are not available'}, status=400)
         client = razorpay.Client(auth=(os.environ.get('PUBLIC_KEY'), os.environ.get('SECRET_KEY')))
+        user=None
         user=User.objects.filter(email=obj['email_id']).first()
+        if user is None:
+            name=obj['name'].split(' ')
+            fname=name[0]
+            lname="undefined"
+            if(len(name)==2):lname=name[1]
+            if(len(name)==3):lname=name[2]
+            user=User.objects.create_user(
+                username=obj['name'],
+                email=obj['email_id'],
+                password=obj['mobile'],
+                first_name=fname,
+                last_name=lname
+            )
+            
         obj['user_id']=user.id
         reservation = Reservation.objects.create(
             location_id=obj["location_id"],
@@ -79,9 +95,14 @@ class CreateReservation(View):
             'razorpay_payment_id': payment_id,
             'razorpay_signature': signature
             }
+            print(data)
             client.utility.verify_payment_signature(data)
+            Payment=PaymentStatus.objects.filter(payment_ref_id=order_id).first()
+            Payment.status=True
+            Payment.save()
             return JsonResponse({'status':'Payment Successful'})
-        except:
+        except Exception as e:
+            print(e)
             resp=JsonResponse({'status':'Payment Failed'})
             resp.status_code=500
             return resp
