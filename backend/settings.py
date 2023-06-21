@@ -28,8 +28,7 @@ DEBUG = True
 
 # Add subdomain hostname of client app here
 ALLOWED_HOSTS = ["*"]
-
-
+CSRF_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:54516',
 ]

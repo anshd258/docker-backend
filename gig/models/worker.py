@@ -8,6 +8,6 @@ class Worker(models.Model):
     service_areas = models.ManyToManyField(Location)
     earnings = models.DecimalField(decimal_places=2, default=0.0, max_digits=8)
     rating = models.DecimalField(decimal_places=2, default=0.0, max_digits=8)
-
+    status = models.CharField(max_length=20, default="AVAILABLE")
     def __str__(self):
         return self.user_info.user.username + ", " + self.user_info.contact
