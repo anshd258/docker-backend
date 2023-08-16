@@ -9,4 +9,5 @@ class Job(models.Model):
     commission = models.DecimalField(decimal_places=2, default=0.0, max_digits=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    unique_link= models.CharField(max_length=100, unique=True,null=True)
+    otp=models.IntegerField(null=True)
