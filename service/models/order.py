@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 class Order(models.Model):
     class Status(models.IntegerChoices):
         HOLD = 1  # while adding items
-        CONFIRMED = 2  # while final payment is being made
-        PROCESSING = 3  # final payment done and order pending service
+        PROCESSING = 2  # while final payment is being made
+        CONFIRMED = 3  # final payment done and order pending service
         READY = 4  # order is ready for delivery to customer
         DELIVERED = 5  # order is delivered to customer
         COMPLETED = 6  # customer has rated the order and closed it
@@ -35,8 +35,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order", null=True, blank=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items", null=True, blank=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_items")
     option = models.JSONField(blank=True, null=True)
     listed_price = models.FloatField()
     total = models.FloatField()
@@ -51,7 +51,7 @@ def update_total(sender, instance, **kwargs):
     items = sender.objects.filter(order=order)
     order.subtotal = items.aggregate(Sum('total'))['total__sum']
     order.discount = items.aggregate(Sum('discount'))['discount__sum']
-    order.total = order.subtotal - order.discount
+    order.total = order.subtotal - order.discount if order.subtotal > order.discount else 0
     order.taxes = order.total * 0.18
     order.total += order.taxes
     post_save.disconnect(update_total, sender=OrderItem)

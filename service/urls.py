@@ -5,7 +5,7 @@ from django.views.decorators.cache import never_cache
 
 
 urlpatterns = [
-    path('get-menu/', GetMenu.as_view(), name='get-menu'),
+    path('get-menu/', never_cache(GetMenu.as_view()), name='get-menu'),
     path('create-order/', CreateOrder.as_view(), name='create-order'),
     path('add-items/', csrf_exempt(AddItems.as_view()), name='add-items'),
     path('update-order/', csrf_exempt(UpdateOrder.as_view()), name='update-order'),
@@ -15,3 +15,4 @@ urlpatterns = [
     path('get-discounts/', GetDiscount.as_view(), name='get-discounts'),
     path('apply-discounts/', ApplyDiscount.as_view(), name='apply-discounts')
 ]
+
