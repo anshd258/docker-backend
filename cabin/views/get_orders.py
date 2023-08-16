@@ -1,19 +1,22 @@
 from django.http import JsonResponse
+from cabin.models import Reservation
 from django.views import View
 from cabin.models import Reservation, Location
 from django.contrib.auth.models import User
 from user.models import UserInfo
 from cabin.serializers import ReservationSerializer
-"""
-    This function will accept following endpoints:
-        /cabin/get-booking/?location=<location_name>
-        /cabin/get-booking/?phone=<phone_number>
-        /cabin/get-booking/?email=<email>
-        /cabin/get-booking/?user_id=<user_id>
-"""
+from rest_framework.views import APIView
+from user.authentication import BearerAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
-class GetReservations(View):
+
+
+class GetReservations(APIView):
+
+    authentication_classes = [BearerAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         try:
             user = None

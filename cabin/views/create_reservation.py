@@ -8,7 +8,7 @@ from django.views import View
 from cabin.models import Reservation, PaymentStatus,Location
 from user.models import User
 from cabin.availability import CalculateAvailability
-from cabin.serializers import PaymentStatusSerializer,ReservationSerializer
+from cabin.serializers import PaymentStatusSerializer, ReservationSerializer
 import json
 import os
 import razorpay
@@ -16,9 +16,9 @@ from django.views.decorators.csrf import csrf_exempt
 import pytz
 from rest_framework.decorators import api_view
 
-class CreateReservation(View):
-    def get(self, request):
-        pass
+class CreateReservation(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     @csrf_exempt
     def post(self, request):

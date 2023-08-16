@@ -12,6 +12,3 @@ class CheckAvailability(View):
             request.GET['checkin'],
             request.GET['checkout']
         )})
-
-    def post(self):
-        pass
