@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views import View
-from cabin.models import Reservation, Location
+from cabin.models import Reservation, Property
 from django.contrib.auth.models import User
 from user.models import UserInfo
 from cabin.serializers import ReservationSerializer
@@ -31,8 +31,8 @@ class GetReservations(View):
                 user = UserInfo.objects.filter(contact=phone).first().user
 
             elif request.GET.get("location"):
-                location = Location.objects.filter(name=request.GET["location"]).first()
-                reservations = Reservation.objects.filter(location=location).all()
+                location = Property.objects.filter(name=request.GET["location"]).first()
+                reservations = Reservation.objects.filter(property=location).all()
                 return JsonResponse({"reservations": ReservationSerializer(reservations, many=True).data})
 
             reservations = Reservation.objects.filter(user=user).all()

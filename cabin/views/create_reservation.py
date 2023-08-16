@@ -5,7 +5,7 @@ import hmac
 from django.conf import settings
 from django.http import JsonResponse
 from django.views import View
-from cabin.models import Reservation, PaymentStatus,Location
+from cabin.models import Reservation, PaymentStatus,Property
 from user.models import User
 from cabin.availability import CalculateAvailability
 from cabin.serializers import PaymentStatusSerializer,ReservationSerializer
@@ -26,7 +26,7 @@ class CreateReservation(View):
         print(obj)
         location=obj['location']
         price=obj['price']
-        loc=Location.objects.filter(name=location).first()
+        loc=Property.objects.filter(name=location).first()
         if loc is None:
             return JsonResponse({'status': 'Location not found'})
     
@@ -60,7 +60,7 @@ class CreateReservation(View):
             
         obj['user_id']=user.id
         reservation = Reservation.objects.create(
-            location_id=obj["location_id"],
+            property=obj["location_id"],
             user_id=obj["user_id"],
             price=int(price),
             adults=obj["adults"],

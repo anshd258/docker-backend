@@ -7,4 +7,3 @@ class Location(models.Model):
     location_address = models.TextField()
     photo = models.TextField()
     cabin_type = models.TextField()
-    rooms = models.IntegerField()

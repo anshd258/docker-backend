@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
-from cabin.models import Location
+from cabin.models.property import Property
 
 
 class Reservation(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='location_name')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reservation')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_name')
     price = models.IntegerField()
     adults = models.IntegerField()

@@ -1,18 +1,18 @@
-from cabin.models.location import Location
+from cabin.models.property import Property
 from cabin.models.payment_status import PaymentStatus
 from cabin.models.reservation import Reservation
 from datetime import datetime
 import pytz
 def datetimeObject(it):
-    return pytz.utc.localize(datetime.strptime(str(it),'%Y-%m-%d %H:%M:%S'))
+    return pytz.utc.localize(datetime.strptime(str(it),'%Y-%m-%d %H:%M:%S.%f'))
 
 
 def CalculateAvailability(location_id, rooms_to_be_booked, checkin, checkout):
     checkin_date = checkin
     checkout_date = checkout
-    location = Location.objects.filter(id=location_id).first()
+    location = Property.objects.filter(id=location_id).first()
     no_of_rooms = 0
-    res_list=Reservation.objects.filter(location_id=location.id).all()
+    res_list=Reservation.objects.filter(property=location.id).all()
     fin=[]
     for each in res_list:
         payments=PaymentStatus.objects.filter(reservation_id=each.id)
@@ -20,13 +20,14 @@ def CalculateAvailability(location_id, rooms_to_be_booked, checkin, checkout):
             print(i.status)
             if i.status==True:
                 fin.append(each)
+                break
     for each in fin:
         a =(each.checkin)
         b =(each.checkout)
         print(a,b)
         if (a <= checkout_date <= b) or (a <= checkin_date <= b) or (checkin_date <= a and checkout_date >= b):
             no_of_rooms += each.rooms
-    print(location.rooms-no_of_rooms)  
+    print(location.rooms)  
     if location.rooms-no_of_rooms >= int(rooms_to_be_booked):
         return 1
     else:
