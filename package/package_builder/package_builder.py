@@ -39,4 +39,4 @@ class PackageBuilder:
 
             current_priority += 1
 
-        return {"itinerary": itinerary, 'package_price': package_price};
+        return {"itinerary": itinerary, 'package_price': package_price}

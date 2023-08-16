@@ -9,10 +9,16 @@ class CreateOrder(View):
     def get(self, request):
         try:
             location = Location.objects.get(name=request.GET["location"])
+            print(location.id)
             user_id = request.session.get('userdata', {}).get('user', {}).get('id', None)
+            if not user_id:
+                user_id = request.GET["user_id"]
             user = User.objects.get(pk=user_id)
+            print(user.id)
             order = Order.objects.create(location=location, user=user)
-            order_dict = OrderSerializer([order], many=True).data[0]
+            order.save()
+            print(order.id)
+            order_dict = OrderSerializer(order).data
             order_dict = {
                 'order': order_dict
             }

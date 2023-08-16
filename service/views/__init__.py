@@ -4,3 +4,7 @@ from .update_order import UpdateOrder
 from .add_items import AddItems
 from .find_orders import FindOrders
 from .update_item import UpdateItem
+from .remove_item import RemoveItem
+from .get_discounts import GetDiscount
+from .apply_discount import ApplyDiscount
+

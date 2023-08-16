@@ -14,5 +14,3 @@ class CheckPaymentStatus(View):
         except Exception as e:
             return JsonResponse({"status": str(e)}, status=404)
 
-    def post(self):
-        pass

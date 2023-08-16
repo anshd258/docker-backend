@@ -10,6 +10,3 @@ class GetOTP(View):
             return JsonResponse(otp.get_otp(request.GET['phone']))
         except Exception as e:
             return JsonResponse({"status": str(e)}, status=404)
-
-    def post(self):
-        pass

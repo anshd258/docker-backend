@@ -4,6 +4,7 @@ PyMySQL==1.0.2
 pycparser==2.21
 PyJWT==2.4.0
 Django==4.0.4
+django-sslserver==0.22
 django-allauth==0.44.0
 django-auth==0.1.9
 django-crispy-forms==1.12.0
