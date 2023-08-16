@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from cabin.models import Reservation
+from user.models import UserInfo
 from django.views import View
 from cabin.models import Reservation, Location
 from django.contrib.auth.models import User
@@ -42,6 +43,5 @@ class GetReservations(APIView):
             return JsonResponse({"reservations": ReservationSerializer(reservations, many=True).data})
 
         except Exception as e:
-            print(e)
-            return JsonResponse({"status": e})
+            return JsonResponse({"status": str(e)}, status=404)
 

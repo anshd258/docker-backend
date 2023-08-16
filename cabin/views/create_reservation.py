@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 class CreateReservation(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-
+    
     @csrf_exempt
     def post(self, request):
         obj = json.loads(request.body)
@@ -106,3 +106,4 @@ class CreateReservation(APIView):
             resp=JsonResponse({'status':'Payment Failed'})
             resp.status_code=500
             return resp
+
