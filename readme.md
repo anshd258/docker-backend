@@ -6,11 +6,12 @@
 -Clone the repo: git clone https://github.com/brisphere/django-backend.git
 
 -Change the current directory: cd django-backend 
-
--Build the docker containers: docker-compose build 
-
--Run the docker containers: docker-compose up 
-
+  # For Development:
+  -Build the docker containers: docker-compose build 
+  -Run the docker containers: docker-compose up 
+  # For Production:
+  - Build the container: docker build . -t django-backend -f docker/Dockerfile.prod
+  - Run the container: docker run -e DJANGO_ENV=deployment django-backend
 ## URLS
 - localhost:8000/admin/
 - localhost:8000/cabin/get-room-availability/?id=<cabin_location.id>&rooms=<number_of_rooms_required>&checkin=<checkin_date>&checkout=<checkout_date>
