@@ -11,12 +11,14 @@ class GenerateOTP:
         self.__otp__ = None
         self.__token__ = None
         self.__response__ = None
-
+        self.__message__ = None
     def set_contact(self, contact):
         self.__contact__ = contact
-
+    def set_message(self, message):
+        self.__message__ = message
     def send_message(self):
         message = "Please use this OTP " + self.__otp__ + " to login to Brisphere"
+        if self.__message__ is not None: message=self.__message__
         url = settings.FAST2SMS_API_ENDPOINT
         headers = {
             "Authorization":  settings.FAST2SMS_API_KEY
@@ -36,7 +38,7 @@ class GenerateOTP:
         for i in range(6):
             s += str(random.randint(0, 9))
         self.__otp__ = s
-
+        return s
     def jwt_token(self):
         payload_data = {
             "otp": self.__otp__,

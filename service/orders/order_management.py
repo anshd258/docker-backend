@@ -19,8 +19,11 @@ class OrderManagement:
             option_prices = sum(option.values())
 
         if order_items.filter(item=item).exists():
-            order_item = order_items.filter(item=item).first()
-            if order_item.option == option:
+            if option:
+                order_item = order_items.filter(item=item, option=option).first()
+            else:
+                order_item = order_items.filter(item=item, option__isnull=True).first()
+            if order_item is not None:
                 order_item.quantity += quantity
                 order_item.listed_price = listed_price + option_prices
                 order_item.total += (listed_price + option_prices) * quantity
@@ -41,7 +44,7 @@ class OrderManagement:
 
     def remove_item(self, order_item_id, quantity):
         order_item = OrderItem.objects.get(pk=order_item_id)
-        order_item.quantity = order_item.quantity - quantity
+        order_item.quantity = order_item.quantity - quantity if order_item.quantity > quantity else 0
         order_item.total = order_item.listed_price * order_item.quantity
         order_item.save()
         return self
