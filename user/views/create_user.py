@@ -3,13 +3,13 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from user.models import UserInfo
+from ..serializers import UserInfoSerializer
+from rest_framework.authtoken.models import Token
 from user.get_user import FindUser
 import json
 
 
 class CreateUser(View):
-    def get(self):
-        pass
 
     def post(self, request):
         data = json.loads(request.body)
@@ -25,6 +25,10 @@ class CreateUser(View):
                 user_id=user.id,
                 contact=data["contact"],
             )
-            return JsonResponse({"status": "success"})
+            data = UserInfoSerializer(user_details, many=False).data
+            token = Token.objects.get(user=user).key
+            data["token"] = token
+
+            return JsonResponse({"user": data})
         except Exception as e:
             return JsonResponse({"status": str(e)}, status=404)

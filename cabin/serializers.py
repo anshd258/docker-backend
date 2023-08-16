@@ -4,7 +4,6 @@ from rest_framework import serializers
 from cabin.models import *
 from user.serializers import UserSerializer
 
-
 class LocationSerializer(serializers.ModelSerializer):
     properties = serializers.SerializerMethodField()
     avg_price = serializers.SerializerMethodField()
