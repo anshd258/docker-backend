@@ -14,12 +14,11 @@ import os
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 import pytz
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 
 class CreateReservation(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    
+
     @csrf_exempt
     def post(self, request):
         obj = json.loads(request.body)

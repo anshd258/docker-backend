@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import UserInfo
+from django.contrib.auth.models import User
 from cabin.models.property import Property
 
 class Reservation(models.Model):
