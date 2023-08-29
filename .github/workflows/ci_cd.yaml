@@ -17,7 +17,7 @@ jobs:
       run: docker build . -t newbackend -f docker/Dockerfile.prod
 
     - name: Login to ACR
-      run: docker login djangoback.azurecr.io
+      run: docker login djangoback.azurecr.io -u djangoback -p Ft5Wg1Dz2wV738hhWYq8qe7Rf2P3Q2l73h/Li9c2qX+ACRD492oL
 
     - name: tag Docker image
       run: docker tag newbackend djangoback.azurecr.io/newbackend:latest
