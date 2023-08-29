@@ -59,7 +59,7 @@ class CreateReservation(APIView):
             
         obj['user_id']=user.id
         reservation = Reservation.objects.create(
-            property=obj["location_id"],
+            property=loc,
             user_id=obj["user_id"],
             price=int(price),
             adults=obj["adults"],
@@ -85,8 +85,8 @@ class CreateReservation(APIView):
     def success(request):
         res=json.loads(request.body)
         order_id = res['orderId']
-        payment_id = res['paymentId']
-        signature= res['signature']
+        payment_id = res['razorpay_payment_id']
+        signature= res['razorpay_signature']
         client = razorpay.Client(auth=(os.environ.get('PUBLIC_KEY'), os.environ.get('SECRET_KEY')))
         try:
             data = {
@@ -94,7 +94,6 @@ class CreateReservation(APIView):
             'razorpay_payment_id': payment_id,
             'razorpay_signature': signature
             }
-            print(data)
             client.utility.verify_payment_signature(data)
             Payment=PaymentStatus.objects.filter(payment_ref_id=order_id).first()
             Payment.status=True

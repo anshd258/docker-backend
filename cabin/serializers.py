@@ -37,7 +37,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ['adults', 'price', 'user', 'location', 'children', 'checkin', 'checkout', 'rooms']
+        fields = [field.name for field in Reservation._meta.fields]+['property','user']
 
 
 class PaymentStatusSerializer(serializers.ModelSerializer):
