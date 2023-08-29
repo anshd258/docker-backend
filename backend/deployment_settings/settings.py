@@ -39,9 +39,7 @@ SECRET_KEY = os.getenv('AZURE_SECRET_KEY','d6803b0530e96ef9ec410ae0a7f7d5671c122
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-CORS_ALLOWED_ORIGINS = [
-   '*'
-]
+CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -163,8 +161,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

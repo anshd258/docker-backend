@@ -1,0 +1,26 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build . -t newbackend -f docker/Dockerfile.prod
+
+    - name: Login to ACR
+      run: docker login djangoback.azurecr.io
+
+    - name: tag Docker image
+      run: docker tag newbackend djangoback.azurecr.io/newbackend:latest
+
+    - name: Push Docker image
+      run: docker push djangoback.azurecr.io/newbackend:latest
