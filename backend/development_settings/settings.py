@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'sslserver',
     'corsheaders',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FAST2SMS_API_KEY = 'img7wq1H3ouRd2SjMnzkGsX4cUl6CfQYEADBebOIxP5F9LahtJDcVWZT2ERv9B7C3YAaHobt51G0pwKe'
 FAST2SMS_API_ENDPOINT = 'https://www.fast2sms.com/dev/bulkV2'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}

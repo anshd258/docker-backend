@@ -55,4 +55,4 @@ class GenerateOTP:
         self.otp_generate()
         self.jwt_token()
         self.send_message()
-        return {"token": self.__token__, }
+        return {"otp":self.__otp__ }

@@ -1,12 +1,14 @@
 from django.views import View
 from django.http import JsonResponse
 from user.otp_generation import GenerateOTP
+from django.views.decorators.csrf import csrf_exempt
 
+class GetOTP:
 
-class GetOTP(View):
-    def get(self, request):
+    def getotp(phone):
         otp = GenerateOTP()
         try:
-            return JsonResponse(otp.get_otp(request.GET['phone']))
+            otp=otp.get_otp(phone)['otp']
+            return otp
         except Exception as e:
-            return JsonResponse({"status": str(e)}, status=404)
+            return 0
