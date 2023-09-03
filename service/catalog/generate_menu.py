@@ -1,5 +1,5 @@
-from ..models import ServiceArea, Provider, Item, Location
-from ..serializers import ItemSerializer
+from ..models import ServiceArea, Provider, FoodItem, Location
+from ..serializers import FoodItemSerializer
 
 
 class GenerateCatalog:
@@ -18,7 +18,7 @@ class GenerateCatalog:
         self.__providers__ = ServiceArea.objects.filter(location=self.__location__).values('provider')
 
     def get_catalog(self):
-        self.__catalog__ = Item.objects.filter(provider__in=self.__providers__).all()
+        self.__catalog__ = FoodItem.objects.filter(provider__in=self.__providers__).all()
 
     def calculate_surge(self):
         def surge(item):

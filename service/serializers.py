@@ -21,9 +21,9 @@ class ProviderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class FoodItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = FoodItem
         fields = '__all__'
 
 

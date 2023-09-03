@@ -1,4 +1,4 @@
-from ..models import OrderItem, Order, Item
+from ..models import OrderItem, Order, FoodItem
 
 
 class OrderManagement:
@@ -9,7 +9,7 @@ class OrderManagement:
         return self.__order__
 
     def add_item(self, item, listed_price, quantity=1, discount=0, option=None):
-        item = Item.objects.get(pk=item['id'])
+        item = FoodItem.objects.get(pk=item['id'])
         order_items = OrderItem.objects.filter(order=self.__order__)
         if not item:
             raise Exception("Item does not exist")

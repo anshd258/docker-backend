@@ -1,5 +1,5 @@
 from django.db import models
-from ..models import Location, Item, Provider
+from ..models import Location, FoodItem, Provider
 
 
 class Discount(models.Model):
@@ -14,7 +14,7 @@ class Discount(models.Model):
     min_price = models.FloatField(default=0)
     linked_to = models.PositiveSmallIntegerField(choices=LinkedTo.choices, default=LinkedTo.ITEM)
     to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
-    to_item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, blank=True)
+    to_item = models.ForeignKey(FoodItem, on_delete=models.CASCADE, null=True, blank=True)
     to_provider = models.ForeignKey(Provider, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
