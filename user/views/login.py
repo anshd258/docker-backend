@@ -1,4 +1,5 @@
 
+import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from user.models.user_info import UserInfo
@@ -21,9 +22,10 @@ class Login(APIView):
         return JsonResponse({'status': 'OTP sent successfully'}, status=200)
     
     def post(self, request):
-        phone=request.POST.get('phone')
-        name=request.POST.get('username')
-        otp=request.POST.get('otp')
+        body=json.loads(request.body)
+        phone=body['phone']
+        name=body['username']
+        otp=body['otp']
         user=UserInfo.objects.filter(contact=phone).first()
         if user is None:
             return JsonResponse({'status': 'User not found'}, status=400)
