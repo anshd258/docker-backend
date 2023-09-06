@@ -3,7 +3,7 @@ from ..serializers import OrderSerializer, OrderItemSerializer
 from django.views import View
 from ..models import Order, OrderItem
 from django.db.models import Q
-
+from django.shortcuts import get_object_or_404
 from user.models import UserInfo, User
 import json
 
@@ -32,8 +32,8 @@ class FindOrders(View):
             if 'id' in body:
                 orders = Order.objects.filter(pk=body['id'])
             if 'phone' in body:
-                user_info = UserInfo.objects.get(contact=body['phone'])
-                orders = Order.objects.filter(user=user_info.user)
+                user_info = get_object_or_404(UserInfo,contact=body['phone'])
+                orders = Order.objects.filter(user=user_info)
 
             result = {"orders": OrderSerializer(orders, many=True).data}
             return JsonResponse(result)

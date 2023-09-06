@@ -26,6 +26,7 @@ class Login(APIView):
         phone=body['phone']
         name=body['username']
         otp=body['otp']
+        room=body['room']
         user=UserInfo.objects.filter(contact=phone).first()
         if user is None:
             return JsonResponse({'status': 'User not found'}, status=400)
@@ -33,6 +34,9 @@ class Login(APIView):
             user.otp=None
             if user.username is None:
                 user.username=name
+                user.save()
+            if len(room)>0:
+                user.room=room
                 user.save()
             suser=User.objects.filter(id=user.user_id).first()
             refresh = RefreshToken.for_user(suser)

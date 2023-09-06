@@ -9,8 +9,8 @@ import json
 
 class FindAllOrders(View):
     def get(self, request):
-        id=request.GET['user_id']
-        user=get_object_or_404(User,id=id)
+        id=request.GET['phone']
+        user=get_object_or_404(UserInfo,contact=id)
         orders=Order.objects.filter(user=user)
         ser_orders=OrderSerializer(orders,many=True).data
         return JsonResponse({'orders':ser_orders})

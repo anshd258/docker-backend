@@ -1,4 +1,6 @@
 from django.db import models
+
+from user.models.user_info import UserInfo
 from .location import Location
 from .item import FoodItem
 from django.dispatch import receiver
@@ -17,7 +19,7 @@ class Order(models.Model):
         COMPLETED = 6  # customer has rated the order and closed it
         FAILED = 0  # failed payment
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(UserInfo, on_delete=models.CASCADE, null=True, blank=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     discount = models.FloatField(default=0.0)
     subtotal = models.FloatField(default=0)
