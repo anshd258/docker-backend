@@ -29,7 +29,7 @@ class Login(APIView):
         user=UserInfo.objects.filter(contact=phone).first()
         if user is None:
             return JsonResponse({'status': 'User not found'}, status=400)
-        if otp==user.otp:
+        if str(otp)==user.otp:
             user.otp=None
             if user.username is None:
                 user.username=name
