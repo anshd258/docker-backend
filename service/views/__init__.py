@@ -7,4 +7,8 @@ from .update_item import UpdateItem
 from .remove_item import RemoveItem
 from .get_discounts import GetDiscount
 from .apply_discount import ApplyDiscount
-
+from .get_order_by_type import GetOrderByType
+from .create_rentalbooking import CreateRentalBooking
+from .create_ride import CreateRide
+from .set_status_rental import SetStatusRental
+from .set_status_ride import SetStatusRide

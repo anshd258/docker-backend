@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from service.models import *
-from user.serializers import UserSerializer
+from user.serializers import UserInfoSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -39,10 +39,27 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    user=UserSerializer()
+    user=UserInfoSerializer()
     location=LocationAddressSerializer()
     items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
+        fields = '__all__'
+
+class RideSerializer(serializers.ModelSerializer):
+    user=UserInfoSerializer()
+    class Meta:
+        model = Ride
+        fields = '__all__'
+
+class RentalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rental
+        fields = '__all__'
+
+class RentalBookingSerializer(serializers.ModelSerializer):
+    user=UserInfoSerializer()
+    class Meta:
+        model = RentalBooking
         fields = '__all__'
