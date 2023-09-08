@@ -23,4 +23,4 @@ class Ride(models.Model):
     rating = models.FloatField(default=5)
 
     def __str__(self):
-        return str(self.id)+str(self.amount)
+        return str(self.id)+str(self.price)
