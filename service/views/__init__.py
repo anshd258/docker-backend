@@ -12,5 +12,6 @@ from .create_rentalbooking import CreateRentalBooking
 from .create_ride import CreateRide
 from .set_status_rental import SetStatusRental
 from .set_status_ride import SetStatusRide
-from .find_all_rides import GetAllRides
+from .find_all_riderequests import GetAllRides
 from .find_all_rentalbookings import GetAllRentalBookings
+from .find_all_rentals import GetAllRentals
