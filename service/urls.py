@@ -19,5 +19,7 @@ urlpatterns = [
     path('create-ride/', csrf_exempt(CreateRide), name='create-ride'),
     path('set-status-rental/', csrf_exempt(SetStatusRental), name='set-status-rental'),
     path('set-status-ride/', csrf_exempt(SetStatusRide), name='set-status-ride'),
+    path('find-all-riderequests/', never_cache(csrf_exempt(GetAllRides.as_view())), name='find-all-rides'),
+    path('find-all-rentalrequests/', never_cache(csrf_exempt(GetAllRentalBookings.as_view())), name='find-all-rentals'),
 ]
 
