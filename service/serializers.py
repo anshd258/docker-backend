@@ -39,7 +39,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    user=UserInfoSerializer()
     location=LocationAddressSerializer()
     items = OrderItemSerializer(many=True, read_only=True)
 
@@ -48,7 +47,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RideSerializer(serializers.ModelSerializer):
-    user=UserInfoSerializer()
     class Meta:
         model = Ride
         fields = '__all__'
@@ -59,7 +57,6 @@ class RentalSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RentalBookingSerializer(serializers.ModelSerializer):
-    user=UserInfoSerializer()
     class Meta:
         model = RentalBooking
         fields = '__all__'
