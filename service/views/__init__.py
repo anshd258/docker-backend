@@ -15,3 +15,4 @@ from .set_status_ride import SetStatusRide
 from .find_all_riderequests import GetAllRides
 from .find_all_rentalbookings import GetAllRentalBookings
 from .find_all_rentals import GetAllRentals
+from .get_order import GetOrder
