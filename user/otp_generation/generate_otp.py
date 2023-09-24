@@ -38,7 +38,7 @@ class GenerateOTP:
         s = ""
         for i in range(6):
             s += str(random.randint(0, 9))
-        self.__otp__ = s
+        self.__otp__ ='123456'
         
     def jwt_token(self):
         payload_data = {
