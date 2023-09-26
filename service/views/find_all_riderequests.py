@@ -17,7 +17,7 @@ class GetAllRides(APIView):
         try:
             suser=request.user
             user=get_object_or_404(UserInfo,user=suser)
-            rides = Ride.objects.filter(user__id=user)
+            rides = Ride.objects.filter(user=user)
             return JsonResponse({"riderequests": RideSerializer(rides, many=True).data})
         except Exception as e:
             return JsonResponse({"status": str(e)}, status=404)
