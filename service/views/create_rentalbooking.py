@@ -5,13 +5,18 @@ from django.shortcuts import get_object_or_404
 from service.serializers import RentalBookingSerializer
 from ..models import RentalBooking, Rental
 from user.models import UserInfo
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def CreateRentalBooking(request):
     if request.method=='POST':
         try:
             body=json.loads(request.body)
-            user_id=body['user_id']
-            user=get_object_or_404(UserInfo,pk=user_id)
+            user=request.user
+            user=get_object_or_404(UserInfo,user=user)
             rental_id=body['rental_id']
             rental=get_object_or_404(Rental,pk=rental_id)
             start_location=body['start_location']

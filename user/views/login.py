@@ -28,8 +28,10 @@ class Login(APIView):
             new_user=False
             user=UserInfo.objects.filter(contact=phone).first()
             if user is None:
-                u=User.objects.create_user(username=phone, password=phone)
+                u=User.objects.create_user(username=phone, password=str(phone))
                 user=UserInfo.objects.create(user=u, contact=phone)
+                u.save()
+                user.save()
                 new_user=True
             suser=user.user
             refresh = RefreshToken.for_user(suser)

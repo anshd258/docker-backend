@@ -6,36 +6,20 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from user.models import UserInfo, User
 import json
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-
-class FindOrders(View):
-    def get(self, request):
-        # TODO : Deprecate Get call for this
-        try:
-            order_id = request.GET["id"]
-
-            order = Order.objects.filter(pk=order_id).first()
-            order_dict = OrderSerializer(order).data
-
-            order_dict = {
-                'order': order_dict
-            }
-            return JsonResponse(order_dict)
-        except Exception as e:
-            return JsonResponse({"status": str(e)}, status=404)
-
+class FindOrder(View):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         try:
             body = json.loads(request.body)
             orders = None
             result = []
-            if 'id' in body:
-                orders = Order.objects.filter(pk=body['id'])
-            if 'phone' in body:
-                user_info = get_object_or_404(UserInfo,contact=body['phone'])
-                orders = Order.objects.filter(user=user_info)
-
-            result = {"orders": OrderSerializer(orders, many=True).data}
+            order = get_object_or_404(Order, id=body['id'])
+            result = {"order": OrderSerializer(order, many=False).data}
             return JsonResponse(result)
 
         except Exception as e:
