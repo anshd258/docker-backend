@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-
+from django.db.models import Q
 from user.models.user_info import UserInfo
 from ..models import *
 from ..serializers import *
@@ -14,7 +14,7 @@ def GetOrderByType(request):
     if request.method=='GET':
         try:
             _type=request.GET['type']
-            status=request.GET['status']
+            status=None
             room=None
             suser=request.user
             if not suser.is_authenticated:
@@ -22,37 +22,26 @@ def GetOrderByType(request):
             user=get_object_or_404(UserInfo,user=suser)
             user=user.id
             search_by_user=False
+            queries={}
             if 'room' in request.GET:
                 room=request.GET['room']
-
+                queries['user__room']=room
+            if 'status' in request.GET:
+                status=request.GET['status']
+                queries['status']=status
+            if search_by_user:
+                queries['user__id']=user
+            q_objects=Q(**queries)
             if _type=='food':
-                if room:
-                    orders=Order.objects.filter(user__room=room,status=status)
-                    return JsonResponse({'orders':OrderSerializer(orders,many=True).data})
-                if search_by_user:
-                    orders=Order.objects.filter(user__id=user,status=status)
-                    return JsonResponse({'orders':OrderSerializer(orders,many=True).data})
-                orders=Order.objects.filter(status=status)
+                orders=Order.objects.filter(q_objects)
                 return JsonResponse({'orders':OrderSerializer(orders,many=True).data})
             
             if _type=='ride':
-                if room:
-                    rides=Ride.objects.filter(user__room=room,status=status)
-                    return JsonResponse({'rides':RideSerializer(rides,many=True).data})
-                if search_by_user:
-                    rides=Ride.objects.filter(user__id=user,status=status)
-                    return JsonResponse({'rides':RideSerializer(rides,many=True).data})
-                rides=Ride.objects.filter(status=status)
+                rides=Ride.objects.filter(q_objects)
                 return JsonResponse({'rides':RideSerializer(rides,many=True).data})
             
             if _type=='rental':
-                if room:
-                    rentals=RentalBooking.objects.filter(user__room=room,status=status)
-                    return JsonResponse({'rentals':RentalBookingSerializer(rentals,many=True).data})
-                if search_by_user:
-                    rentals=RentalBooking.objects.filter(user__id=user,status=status)
-                    return JsonResponse({'rentals':RentalBookingSerializer(rentals,many=True).data})
-                rentals=RentalBooking.objects.filter(status=status)
+                rentals=RentalBooking.objects.filter(q_objects)
                 return JsonResponse({'rentals':RentalBookingSerializer(rentals,many=True).data})
         except Exception as e:
             return JsonResponse({'error':str(e)},status=404)
