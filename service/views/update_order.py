@@ -9,7 +9,12 @@ import json
 from gig.views import assign_job, find_workers
 from gig.serializers import WorkerSerializer
 from user.otp_generation import GenerateMsg,GenerateLink
-class UpdateOrder(View):
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+class UpdateOrder(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     @staticmethod
     def create_gig_job(order):
         job = Job(order=order)

@@ -4,9 +4,12 @@ from ..models import Order, OrderItem
 from ..serializers import OrderItemSerializer
 from ..orders.order_management import OrderManagement
 from django.http import JsonResponse
-
-
-class RemoveItem(View):
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+class RemoveItem(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
             body = json.loads(request.body)

@@ -21,7 +21,6 @@ urlpatterns = [
     path('set-status-ride/', csrf_exempt(SetStatusRide), name='set-status-ride'),
     path('find-all-riderequests/', never_cache(csrf_exempt(GetAllRides.as_view())), name='find-all-rides'),
     path('find-all-rentalrequests/', never_cache(csrf_exempt(GetAllRentalBookings.as_view())), name='find-all-rentals'),
-    path('find-all-rentals/', never_cache(csrf_exempt(GetAllRentals.as_view())), name='find-all-rentals'),
-    path('get-food-order/', never_cache(csrf_exempt(GetOrder.as_view())), name='get-order'),
+    path('find-all-rentals/', never_cache(csrf_exempt(GetAllRentals.as_view())), name='find-all-rentals')
 ]
 

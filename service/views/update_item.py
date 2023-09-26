@@ -3,9 +3,12 @@ import json
 from ..models import Order, OrderItem
 from ..serializers import OrderItemSerializer
 from django.http import JsonResponse
-
-
-class UpdateItem(View):
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+class UpdateItem(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
             body = json.loads(request.body)

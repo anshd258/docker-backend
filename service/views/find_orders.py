@@ -8,8 +8,9 @@ from user.models import UserInfo, User
 import json
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
-class FindOrder(View):
+class FindOrder(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
@@ -17,7 +18,6 @@ class FindOrder(View):
         try:
             body = json.loads(request.body)
             orders = None
-            result = []
             order = get_object_or_404(Order, id=body['id'])
             result = {"order": OrderSerializer(order, many=False).data}
             return JsonResponse(result)

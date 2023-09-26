@@ -1,9 +1,12 @@
 from django.http import JsonResponse
 from django.views import View
 from service.catalog import GenerateCatalog
-
-
-class GetMenu(View):
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+class GetMenu(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request) -> JsonResponse:
         catalog = GenerateCatalog()
         try:

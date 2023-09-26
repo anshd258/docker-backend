@@ -3,6 +3,10 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from ..serializers import RideSerializer
 from ..models import Ride
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes, api_view
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def SetStatusRide(request):
     if request.method=='POST':
         try:

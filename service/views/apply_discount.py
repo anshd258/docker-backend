@@ -1,9 +1,12 @@
 from django.http import JsonResponse
 from django.views import View
 from ..discounts import Discounts
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 class ApplyDiscount(View):
+    authentication_classes = [JWTAuthentication]
+    PermissionError = [IsAuthenticated]
     def get(self, request):
         try:
             order_id = request.GET["order_id"]

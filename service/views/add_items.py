@@ -3,9 +3,13 @@ from django.http import JsonResponse
 from ..orders.order_management import OrderManagement
 import json
 from ..serializers import OrderSerializer
-
-
-class AddItems(View):
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+class AddItems(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         try:
             body = json.loads(request.body)
