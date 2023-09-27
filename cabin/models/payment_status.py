@@ -8,5 +8,5 @@ class PaymentStatus(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation')
     status = models.BooleanField(default=False)
     amount = models.IntegerField()
-    create_time = models.DateTimeField(default=datetime.now())
-    update_time = models.DateTimeField(default=datetime.now())
+    create_time = models.DateTimeField(default=datetime(2021, 1, 1, 0, 0, 0, 0))
+    update_time = models.DateTimeField(default=datetime(2021, 1, 1, 0, 0, 0, 0))

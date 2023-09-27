@@ -9,7 +9,12 @@ from cabin.models.payment_status import PaymentStatus
 from cabin.models.reservation import Reservation
 from cabin.availability import calculate_availability
 from cabin.serializers import LocationSerializer
-class GetAvailability(View):
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.views import APIView
+class GetAvailability(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         try:
             properties=Property.objects.all()

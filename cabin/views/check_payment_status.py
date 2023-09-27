@@ -2,10 +2,12 @@ from django.http import JsonResponse
 from django.views import View
 from cabin.models import PaymentStatus
 from cabin.serializers import PaymentStatusSerializer
-
-
-class CheckPaymentStatus(View):
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.views import APIView
+class CheckPaymentStatus(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         try:
             reservation_id = request.GET["reservation_id"]

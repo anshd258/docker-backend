@@ -1,10 +1,12 @@
 from django.http import JsonResponse
 from django.views import View
 from cabin.availability.calculate_availability import CalculateAvailability
-
-
-class CheckAvailability(View):
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+class CheckAvailability(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         try:
             return JsonResponse({"status": CalculateAvailability(

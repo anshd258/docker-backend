@@ -7,15 +7,12 @@ from django.contrib.auth.models import User
 from user.models import UserInfo
 from cabin.serializers import ReservationSerializer
 from rest_framework.views import APIView
-from user.authentication import BearerAuthentication
 from rest_framework.permissions import IsAuthenticated
-
-
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class GetReservations(APIView):
 
-    authentication_classes = [BearerAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

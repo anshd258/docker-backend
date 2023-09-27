@@ -8,9 +8,12 @@ class LocationSerializer(serializers.ModelSerializer):
     properties = serializers.SerializerMethodField()
     avg_price = serializers.SerializerMethodField()
     avg_rating = serializers.SerializerMethodField()
+    meta_data=serializers.SerializerMethodField()
     class Meta:
         model = Location
-        fields = ['id', 'name', 'description','avg_price', 'avg_rating', 'location_address', 'photo', 'cabin_type','properties']
+        fields = ['id', 'name', 'description','avg_price', 'avg_rating', 'meta_data','location_address', 'photo', 'cabin_type','properties']
+    def get_meta_data(self,obj):
+        return LocationMetaDataSerializer(LocationMetaData.objects.filter(location=obj),many=True).data
     def get_properties(self, obj):
         filtered_properties = self.context.get('filtered_properties', [])
         print(filtered_properties)
@@ -26,7 +29,21 @@ class LocationSerializer(serializers.ModelSerializer):
         location_properties = [prop for prop in filtered_properties if prop.location == obj]
         return sum([prop.overallrating for prop in location_properties]) / len(location_properties)
 
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = '__all__'
+
+class PropertyMetaDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyMetaData
+        fields = '__all__'
+
+
 class PropertySerializer(serializers.ModelSerializer):
+    amenities = serializers.SerializerMethodField()
+    def get_amenities(self, obj):
+        return PropertyMetaDataSerializer(PropertyMetaData.objects.filter(property=obj,key="amenities"),many=True).data
     class Meta:
         model = Property
         fields = '__all__'
@@ -53,11 +70,6 @@ class LocationMetaDataSerializer(serializers.ModelSerializer):
         fields = '__all__'
    
 
-class PropertyMetaDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PropertyMetaData
-        fields = '__all__'
-
 class PropertyReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = PropertyReview
@@ -66,11 +78,14 @@ class PropertyReviewSerializer(serializers.ModelSerializer):
 class PropertyFullSerializer(serializers.ModelSerializer):
     reviews=serializers.SerializerMethodField()
     metadata=serializers.SerializerMethodField()
+    rooms=serializers.SerializerMethodField()
+    def get_rooms(self,obj):
+        return RoomSerializer(Room.objects.filter(_property=obj),many=True).data
     def get_reviews(self,obj):
         return PropertyReviewSerializer(PropertyReview.objects.filter(property=obj),many=True).data
     def get_metadata(self,obj):
         return PropertyMetaDataSerializer(PropertyMetaData.objects.filter(property=obj),many=True).data
     class Meta:
         model = Property
-        fields = [field.name for field in Property._meta.fields]+['reviews','metadata']
+        fields = [field.name for field in Property._meta.fields]+['reviews','metadata','rooms']
 

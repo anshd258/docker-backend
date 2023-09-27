@@ -8,7 +8,7 @@ class Discount(models.Model):
         ITEM = 2
         PROVIDER = 3
 
-    code = models.CharField(max_length=100)
+    code = models.CharField(unique=True,max_length=100)
     percent = models.FloatField(default=0)
     upto = models.FloatField(default=0)
     min_price = models.FloatField(default=0)
