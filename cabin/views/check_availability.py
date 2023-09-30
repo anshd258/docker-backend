@@ -4,9 +4,10 @@ from cabin.availability.calculate_availability import CalculateAvailability
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from user.authentication.secretkeyauth import SecretKeyAuthentication, SecretKeyPermission
 class CheckAvailability(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [SecretKeyAuthentication]
+    permission_classes = [SecretKeyPermission]
     def get(self, request):
         try:
             return JsonResponse({"status": CalculateAvailability(
