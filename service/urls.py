@@ -3,7 +3,6 @@ from service.views import *
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-
 urlpatterns = [
     path('get-all-foods/', never_cache(GetMenu.as_view()), name='get-menu'),
     path('create-foodorder/', CreateOrder.as_view(), name='create-order'),
@@ -21,6 +20,8 @@ urlpatterns = [
     path('set-status-ride/', csrf_exempt(SetStatusRide), name='set-status-ride'),
     path('find-all-riderequests/', never_cache(csrf_exempt(GetAllRides.as_view())), name='find-all-rides'),
     path('find-all-rentalrequests/', never_cache(csrf_exempt(GetAllRentalBookings.as_view())), name='find-all-rentals'),
-    path('find-all-rentals/', never_cache(csrf_exempt(GetAllRentals.as_view())), name='find-all-rentals')
+    path('find-all-rentals/', never_cache(csrf_exempt(GetAllRentals.as_view())), name='find-all-rentals'),
+    path('order-payment/', OrderPayment.as_view(), name='order-payment'),
+    path('order-verify/', OrderVerify.as_view(), name='order-verify'),
 ]
 
