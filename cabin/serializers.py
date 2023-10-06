@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from cabin.models.property import Property
 from cabin.models.property_reviews import PropertyReview
 from rest_framework import serializers
@@ -13,7 +14,7 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = ['id', 'name', 'description','avg_price', 'avg_rating', 'meta_data','location_address', 'photo', 'cabin_type','properties']
     def get_meta_data(self,obj):
-        return LocationMetaDataSerializer(LocationMetaData.objects.filter(location=obj),many=True).data
+        return LocationMetaDataSerializer(get_object_or_404(LocationMetaData,location=obj),many=False).data
     def get_properties(self, obj):
         filtered_properties = self.context.get('filtered_properties', [])
         print(filtered_properties)

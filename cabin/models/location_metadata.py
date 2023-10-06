@@ -11,7 +11,7 @@ class LocationMetaData(models.Model):
     location=models.ForeignKey(Location,on_delete=models.CASCADE,related_name='location')
     overallrating=models.PositiveSmallIntegerField(choices=rating.choices,default=rating.FIVE)
     weather=models.TextField()
-    airquality=models.TextField()
+    airquality=models.PositiveSmallIntegerField(choices=rating.choices,default=rating.FIVE)
     internet= models.TextField()
     accessibility=models.PositiveSmallIntegerField(choices=rating.choices,default=rating.FIVE)
     safety=models.PositiveSmallIntegerField(choices=rating.choices,default=rating.FIVE)

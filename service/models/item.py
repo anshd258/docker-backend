@@ -12,7 +12,7 @@ class FoodItem(models.Model):
     options = models.JSONField(null=True, blank=True)
     veg = models.BooleanField(default=False)
     available = models.BooleanField(default=True)
-    image=models.ImageField(upload_to='images/', blank=True, null=True)
+    image=models.TextField(null=True,blank=True)
 
     def __str__(self):
         return str(self.name) + " by " + str(self.provider.business_name)
