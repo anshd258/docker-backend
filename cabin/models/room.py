@@ -8,7 +8,7 @@ class Room(models.Model):
     price=models.IntegerField()
     available=models.IntegerField()
     def __str__(self):
-        return str(self.property_id) + " - " + str(self._type)
+        return str(self._property.id) + " - " + str(self._type)
 
 @receiver(post_save, sender=Room)
 def update_rooms(sender, instance, created, **kwargs):
