@@ -7,6 +7,9 @@ class Room(models.Model):
     _type=models.CharField(max_length=100)
     price=models.IntegerField()
     available=models.IntegerField()
+    images=models.TextField()
+    name=models.CharField(max_length=100)
+    bed_type=models.CharField(max_length=100)
     def __str__(self):
         return str(self._property.id) + " - " + str(self._type)
 
