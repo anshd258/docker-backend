@@ -21,7 +21,7 @@ def GetOrderByType(request):
                 return JsonResponse({'status': 'User not authenticated'}, status=401)
             user=get_object_or_404(UserInfo,user=suser)
             user=user.id
-            search_by_user=False
+            search_by_user=request.GET['search_by_user']
             queries={}
             if 'room' in request.GET:
                 room=request.GET['room']
