@@ -7,12 +7,13 @@ class Rental(models.Model):
     name=models.CharField(max_length=255)
     description=models.TextField(max_length=255,null=True,blank=True)
     price=models.FloatField(default=0)
-    image=models.CharField(max_length=255,null=True,blank=True)
+    image=models.TextField(null=True,blank=True)
     engineCapacity=models.CharField(max_length=255,null=True,blank=True)
     mileage=models.CharField(max_length=255,null=True,blank=True)
     fuelType=models.CharField(max_length=255,null=True,blank=True)
     seatingCapacity=models.IntegerField(default=2)
     _type=models.CharField(max_length=255,null=True)
+    quantity=models.IntegerField(default=0)
     def __str__(self):
         return str(self.name)
     

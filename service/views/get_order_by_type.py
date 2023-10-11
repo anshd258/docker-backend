@@ -29,7 +29,7 @@ def GetOrderByType(request):
             if 'status' in request.GET:
                 status=request.GET['status']
                 queries['status']=status
-            if search_by_user:
+            if search_by_user==1:
                 queries['user__id']=user
             q_objects=Q(**queries)
             if _type=='food':
