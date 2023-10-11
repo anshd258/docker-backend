@@ -60,6 +60,7 @@ class RentalSerializer(serializers.ModelSerializer):
 
 class RentalBookingSerializer(serializers.ModelSerializer):
     user=UserInfoSerializer()
+    rental=RentalSerializer()   
     class Meta:
         model = RentalBooking
         fields = '__all__'
