@@ -3,6 +3,7 @@ from cabin.models.property import Property
 from cabin.models.property_reviews import PropertyReview
 from rest_framework import serializers
 from cabin.models import *
+from user.models.user_info import UserInfo
 from user.serializers import UserSerializer
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -70,8 +71,12 @@ class LocationMetaDataSerializer(serializers.ModelSerializer):
         model = LocationMetaData
         fields = '__all__'
    
-
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfo
+        fields = ['username']
 class PropertyReviewSerializer(serializers.ModelSerializer):
+    user=UserSerializer(many=False,read_only=True)
     class Meta:
         model = PropertyReview
         fields = '__all__'

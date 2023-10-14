@@ -15,7 +15,7 @@ class OrderPayment(APIView):
         order_id=data['order_id']
         amount=Order.objects.get(id=order_id).total
         order_currency = 'INR'
-        payment = client.order.create(dict(amount=amount, currency=order_currency))
+        payment = client.order.create(dict(amount=amount*100, currency=order_currency))
         return JsonResponse(payment)
     
 class OrderVerify(APIView):

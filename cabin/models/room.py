@@ -10,6 +10,7 @@ class Room(models.Model):
     images=models.TextField()
     name=models.CharField(max_length=100)
     bed_type=models.CharField(max_length=100)
+    occuptancy=models.IntegerField()
     def __str__(self):
         return str(self._property.id) + " - " + str(self._type)
 
