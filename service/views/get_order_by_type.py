@@ -7,7 +7,6 @@ from ..models import *
 from ..serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view,permission_classes
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetOrderByType(request):
@@ -20,8 +19,6 @@ def GetOrderByType(request):
             if not suser.is_authenticated:
                 return JsonResponse({'status': 'User not authenticated'}, status=401)
             user=get_object_or_404(UserInfo,user=suser)
-            user=user.id
-            search_by_user=request.GET['search_by_user']
             queries={}
             if 'room' in request.GET:
                 room=request.GET['room']
@@ -29,8 +26,6 @@ def GetOrderByType(request):
             if 'status' in request.GET:
                 status=request.GET['status']
                 queries['status']=status
-            if search_by_user==1:
-                queries['user__id']=user
             q_objects=Q(**queries)
             if _type=='food':
                 orders=Order.objects.filter(q_objects)

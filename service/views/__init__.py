@@ -16,3 +16,7 @@ from .find_all_riderequests import GetAllRides
 from .find_all_rentalbookings import GetAllRentalBookings
 from .find_all_rentals import GetAllRentals
 from .payment import OrderPayment, OrderVerify
+from .getuserorder import GetUserOrder
+from .getuserrental import GetUserRental
+from .getuserride import GetUserRide
+from .getallrentals import GetAllRentals

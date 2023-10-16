@@ -153,7 +153,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=3),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
 }
 
 API_KEY='7e2d20dc14869c57b84054aeaac6d3aabc4f92e547ee3e757a198ad908c0670e'
