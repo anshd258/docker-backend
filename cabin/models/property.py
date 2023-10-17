@@ -21,9 +21,10 @@ class Property(models.Model):
     property_type = models.TextField()
     rooms = models.IntegerField()
     overallrating = models.PositiveSmallIntegerField(choices=rating.choices, default=rating.FIVE)
-    description = models.PositiveSmallIntegerField(choices=desc.choices, default=desc.FAMILY)
+    description = models.TextField()
     transportation_cost = models.IntegerField()
     meal_cost = models.IntegerField()
     directions= models.TextField()
+    tag=models.PositiveSmallIntegerField(choices=desc.choices, default=desc.FAMILY)
     def __str__(self):
         return self.name

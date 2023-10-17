@@ -34,7 +34,7 @@ class GetAvailability(APIView):
                 l=LocationSerializer(i,context={'filtered_properties':locations[i]},many=False).data
                 response.append(l)
             return JsonResponse(response,safe=False,status=200)
-        except Exception as e:
+        except Exception as e:  
             print(e)
             return JsonResponse({'status':'error'},status=400)
     def post(self,request):
