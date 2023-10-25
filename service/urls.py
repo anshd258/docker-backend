@@ -27,5 +27,6 @@ urlpatterns = [
     path('get-user-rentalbooking/', never_cache(GetUserRental.as_view()), name='get-user-rentalbooking'),
     path('get-user-ride/', never_cache(GetUserRide.as_view()), name='get-user-ride'),
     path('get-all-rentals/', never_cache(GetAllRentals.as_view()), name='get-all-rentals'),
+    path('get-user-cart/', never_cache(GetUserCart.as_view()), name='get-user-cart'),
 ]
 

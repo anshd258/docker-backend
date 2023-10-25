@@ -20,3 +20,4 @@ from .getuserorder import GetUserOrder
 from .getuserrental import GetUserRental
 from .getuserride import GetUserRide
 from .getallrentals import GetAllRentals
+from .get_user_cart import GetUserCart
